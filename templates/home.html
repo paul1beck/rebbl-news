@@ -11,7 +11,7 @@
 			  
             </div>
             <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a> <small class="text-muted"> - {{ post.category }}</small></h2>
-            <p class="article-content">{{ post.shortdesc | safe }} - <a href="{{ url_for('posts.post', post_id=post.id) }}" >Read the full article</a></p>
+            <p class="article-content">{{ post.shortdesc | safe }} -&nbsp;<a href="{{ url_for('posts.post', post_id=post.id) }}" >Read&nbsp;the&nbsp;full&nbsp;article</a></p>
           </div>
         </article>
     {% endfor %}
