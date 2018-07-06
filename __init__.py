@@ -36,14 +36,7 @@ def create_app(config_class=Config):
     app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)
-#    from flaskblog.models import User, UserRole, Post, PostComment #, PostCategory
     admin = Admin(app, name='Dashboard', index_view=AdminView(User, db.session, url='/admin', endpoint='admin'))
     admin.add_view(AdminView(UserRole, db.session))
     admin.add_view(AdminView(Post, db.session))
-#    admin.add_view(AdminView(PostComment, db.session))
     return app
-
-
-#    admin = Admin(app, name='Dashboard', index_view=AdminView(Users, db.session, url='/admin', endpoint='admin'))
-#    admin.add_view(AdminView(Posts, db.session))
-    
