@@ -40,5 +40,3 @@ def create_app(config_class=Config):
     admin.add_view(AdminView(UserRole, db.session))
     admin.add_view(AdminView(Post, db.session))
     return app
-
-    
