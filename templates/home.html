@@ -2,14 +2,16 @@
 {% block content %}
     {% for post in posts.items %}
         <article class="media content-section">
-          <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
           <div class="media-body">
             <div class="article-metadata">
-              <a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+			  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+              By <a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
               <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+			  <a class="btn btn-primary btn-sm mt-3" href="{{ url_for('posts.post', post_id=post.id) }}" style="float:right;">Read the full article</a>
+			  
             </div>
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
-            <p class="article-content">{{ post.shortdesc | safe }}<br /><a class="mr-2" href="{{ url_for('posts.post', post_id=post.id) }}">Read the full post</a></p>
+            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a> <small class="text-muted"> - {{ post.category }}</small></h2>
+            <p class="article-content">{{ post.shortdesc | safe }} - <a href="{{ url_for('posts.post', post_id=post.id) }}" >Read the full article</a></p>
           </div>
         </article>
     {% endfor %}

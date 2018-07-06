@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block content %}
   <article class="media content-section">
-    <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
     <div class="media-body">
       <div class="article-metadata">
-        <a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+	    <img class="rounded-circle article-img" style="float:left" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+		<h2 class="article-title" style="margin-bottom: 0px;">{{ post.title }}</h2>
+        By <a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
         <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
         {% if post.author == current_user %}
           <div>
@@ -13,7 +14,7 @@
           </div>
         {% endif %}
       </div>
-      <h2 class="article-title">{{ post.title }}</h2>
+
       <p class="article-content">{{ post.content | safe }}</p>
     </div>
   </article>
