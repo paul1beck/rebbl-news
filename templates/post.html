@@ -4,9 +4,8 @@
     <div class="media-body">
       <div class="article-metadata">
 	    <img class="rounded-circle article-img" style="float:left" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-		<h2 class="article-title" style="margin-bottom: 0px;">{{ post.title }}</h2>
-        By <a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
-        <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+		<h2 class="article-title" style="margin-bottom: 10px;">{{ post.title }} 
+		<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small></h2>
         {% if post.author == current_user %}
           <div>
             <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
@@ -17,6 +16,7 @@
 
       <p class="article-content">{{ post.content | safe }}</p>
 	  <h3> - {{ post.author.coachname }}</h3>
+	  <p><a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">Read more from this writer.</a></p>
     </div>
   </article>
   <!-- Modal -->
@@ -38,4 +38,5 @@
       </div>
     </div>
   </div>
+
 {% endblock content %}

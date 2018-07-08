@@ -14,3 +14,6 @@ class AdminView(ModelView):
     def inaccessible_callback(self, name, **kwargs):
         if not self.is_accessible():
             return redirect(url_for('main.home', next=request.url))
+        
+#    def is_accessible(self):
+#        return current_user.role[0] == 'Admin'

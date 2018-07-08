@@ -1,18 +1,20 @@
 
 {% extends "layout.html" %}
 {% block content %}
-    <h1 class="mb-3">Posts by {{ user.coachname }} ({{ posts.total }})</h1>
+    <h1 class="mb-3"></h1>
+    <div class="content-section">
+      <div class="media">
+        <img class="rounded-circle account-img" src=" {{ url_for('static', filename='profile_pics/' +user.image_file) }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.coachname }}</h2>
+          <p class="text-secondary">Total number of posts by {{ user.coachname }}: ({{ posts.total }})</p>
+        </div>
+      </div>
+	</div>
     {% for post in posts.items %}
         <article class="media content-section">
           <div class="media-body">
-            <div class="article-metadata">
-			  <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-              By <a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
-              <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
-			  <a class="btn btn-primary btn-sm mt-3" href="{{ url_for('posts.post', post_id=post.id) }}" style="float:right;">Read the full article</a>
-			  
-            </div>
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a> <small class="text-muted"> - {{ post.category }}</small></h2>
+            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.shortdesc | safe }} -&nbsp;<a href="{{ url_for('posts.post', post_id=post.id) }}" >Read&nbsp;the&nbsp;full&nbsp;article</a></p>
           </div>
         </article>

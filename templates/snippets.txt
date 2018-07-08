@@ -1,0 +1,1 @@
+<a class="btn btn-primary btn-sm mt-3" href="{{ url_for('posts.post', post_id=post.id) }}" style="float:right;">Read the full article</a>
