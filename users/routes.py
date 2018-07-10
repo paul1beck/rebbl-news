@@ -76,6 +76,15 @@ def user_posts(coachname):
         .paginate(page=page, per_page=5)
     return render_template('user_posts.html', posts=posts, user=user)
 
+@users.route("/my_posts")
+@login_required
+def my_posts():
+    page = request.args.get('page', 1, type=int)
+    user = User.query.filter_by(coachname=current_user.coachname).first_or_404()
+    posts = Post.query.filter_by(author=user)\
+        .order_by(Post.date_posted.desc())\
+        .paginate(page=page, per_page=5)
+    return render_template('my_posts.html', posts=posts, user=user)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
