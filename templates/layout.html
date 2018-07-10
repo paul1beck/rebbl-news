@@ -65,13 +65,15 @@
         </div>
         <div class="col-md-4">
           <div class="content-section">
-            <h3>Our Sidebar</h3>
-            <p class='text-muted'>You can put any information here you'd like.
+            <h3>More REBBL Content</h3>
+            <p class='text-muted'>These links lead to other REBBL related content, information, and websites.
               <ul class="list-group">
-                <a href="{{ url_for('posts.post', post_id=1) }}"><li class="list-group-item list-group-item-light">Latest Posts</li></a>
-                <li class="list-group-item list-group-item-light">Announcements</li>
-                <li class="list-group-item list-group-item-light">Calendars</li>
-                <li class="list-group-item list-group-item-light">etc</li>
+                <li class="list-group-item list-group-item-light"><a href="{{ url_for('main.home') }}">Latest News Posts</a></li>
+                <li class="list-group-item list-group-item-light"><a href="https://www.reddit.com/r/ReBBl/" target="_blank">REBBL Reddit Homepage</a></li>
+                <li class="list-group-item list-group-item-light"><a href="https://rebbl.net" target="_blank">REBBL Match Ups and Stats</li>
+                <li class="list-group-item list-group-item-light"><a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis</li>
+				
+                <li class="list-group-item list-group-item-light"><a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a></li>
               </ul>
             </p>
           </div>
