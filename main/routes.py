@@ -40,7 +40,7 @@ def rel():
     posts = Post.query.filter(Post.category.in_(["REL","All"])).filter_by(published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template('home.html', posts=posts)
 
-@main.route("/clan/only")
+@main.route("/rel/only")
 def rel_only():
     page = request.args.get('page', 1, type=int)
     posts = Post.query.filter_by(category="REL", published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
