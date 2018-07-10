@@ -3,7 +3,7 @@ from flask import redirect, url_for, request
 from flask_login import current_user
 
 class AdminView(ModelView):
-
+    column_exclude_list = ('content')
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.static_folder = 'static'

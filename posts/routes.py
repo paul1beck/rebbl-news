@@ -68,3 +68,25 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('main.home'))
+
+@posts.route("/post/<int:post_id>/publish", methods=['POST'])
+@login_required
+def publish_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        redirect(url_for('posts.post', post_id=post.id))
+    post.published = True
+    db.session.commit()
+    flash('Your post has been Published!', 'success')
+    return redirect(url_for('posts.post', post_id=post.id))
+
+@posts.route("/post/<int:post_id>/unpublish", methods=['POST'])
+@login_required
+def unpublish_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        redirect(url_for('posts.post', post_id=post.id))
+    post.published = False
+    db.session.commit()
+    flash('Your post has been Unpublished!', 'success')
+    return redirect(url_for('posts.post', post_id=post.id))
