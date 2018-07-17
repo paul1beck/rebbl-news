@@ -3,7 +3,7 @@
   <article class="media content-section">
     <div class="media-body">
       <div class="article-metadata">
-	    <img class="rounded-circle article-img" style="float:left" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+	    <img class="article-img" style="float:left" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
 		<h2 class="article-title" style="margin-bottom: 10px;">{{ post.title }} 
 		<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small></h2>
 		{% if (post.author == current_user or current_user.role == 'Admin') %}
@@ -19,7 +19,7 @@
         {% endif %}
       </div>
 
-      <p class="article-content">{{ post.content | safe }}</p>
+      <div class="article-content">{{ post.content | safe }}</div>
 	  <h3> - {{ post.author.coachname }}</h3>
 	  <p><a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">Read more from this writer.</a></p>
     </div>

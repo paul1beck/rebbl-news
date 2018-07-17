@@ -41,26 +41,35 @@ a.article-title:hover {
   text-decoration: none;
 }
 
-.article-content {
-  white-space: pre-line;
-  img: padding: 5px;
+.article-content table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border-collapse: collapse;
+  border-spacing: 2px;
+  border-color: grey;
 }
 
-.article-content > h1 img {
-  padding: 50px;
+.article-content img {
+  padding: 5px;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
-
 
 .article-img {
-  height: 65px;
-  width: 65px;
+  max-height: 65px;
+  max-width: 65px;
   margin-right: 16px;
+  margin-top: 10px;
 }
 
 .article-metadata {
   padding-bottom: 1px;
   margin-bottom: 4px;
-  border-bottom: 1px solid #e3e3e3
+  border-bottom: 1px solid #e3e3e3;
+  min-height: 75px;
 }
 
 .article-metadata a:hover {
@@ -75,8 +84,9 @@ a.article-title:hover {
 }
 
 .account-img {
-  height: 125px;
-  width: 125px;
+  max-height: 125px;
+  max-width: 125px;
+  margin-top: 16px;
   margin-right: 20px;
   margin-bottom: 16px;
 }
@@ -85,3 +95,10 @@ a.article-title:hover {
   font-size: 2.5rem;
 }
 	
+.table {
+   display: block !important;
+}
+
+.media-body {
+	width:100%
+}

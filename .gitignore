@@ -104,3 +104,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+static/Steps.txt
+static/profile_pics/0dfcf2d473904c39.png
+static/profile_pics/10a73169bfb7beed.png
