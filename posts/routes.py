@@ -4,6 +4,7 @@ from flask_login import current_user, login_required
 from flaskblog import db
 from flaskblog.models import Post
 from flaskblog.posts.forms import PostForm
+from datetime import datetime
 
 posts = Blueprint('posts', __name__)
 
@@ -19,7 +20,7 @@ def new_post():
         db.session.add(post)
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('main.home'))
+        return redirect(url_for('posts.post', post_id=post.id))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
 
@@ -76,6 +77,7 @@ def publish_post(post_id):
     if post.author != current_user:
         redirect(url_for('posts.post', post_id=post.id))
     post.published = True
+    post.date_posted = datetime.utcnow()
     db.session.commit()
     flash('Your post has been Published!', 'success')
     return redirect(url_for('posts.post', post_id=post.id))
