@@ -51,6 +51,18 @@ a.article-title:hover {
   border-color: grey;
 }
 
+.article-content h1 {
+	font-size: 1.75rem;
+}
+
+.article-content h2 {
+	font-size: 1.4rem;
+}
+
+.article-content h3 {
+	font-size: 1.2rem;
+}
+
 .article-content img {
   padding: 5px;
   max-width: 100%;
