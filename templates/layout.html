@@ -8,8 +8,8 @@
 	{% if title %}<meta property="og:title" content="{{ title }}"/>{% else %}<meta property="og:title" content="REBBL News"/>{% endif %}
 	{% if shortdesc %}<meta property="og:description" content="{{ shortdesc }}"/>{% else %}<meta property="og:description" content="REBBL News provides the most up to date fictional news related to REBBL Blood Bowl events."/>{% endif %}
 	<meta property="og:type" content="blog"/>
-	<meta property="og:image" content="http://news.rebbl.net/static/profile_pics/default.png">
-	<meta property="og:image:url" content="http://news.rebbl.net/static/profile_pics/default.png">
+	<meta property="og:image" content="{{ url_for('static', filename='rebblnews.png') }}">
+	<meta property="og:image:url" content="{{ url_for('static', filename='rebblnews.png') }}">
 	<link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
 	<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}"/>
 	
