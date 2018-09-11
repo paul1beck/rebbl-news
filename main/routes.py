@@ -12,6 +12,11 @@ def home():
     posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
     return render_template('home.html', posts=posts)
 
+@main.route("/test", methods=['GET'])
+def test():
+    posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc())
+    return render_template('home2.html', posts=posts)
+
 @main.route("/about")
 def about():
     return render_template('about.html', title='About')

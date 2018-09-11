@@ -1,0 +1,43 @@
+{% extends "layout2.html" %}
+{% block content %}
+    <!-- Page Header -->
+      <section class="jumbotron text-center">
+        <div class="container">
+          <h1 class="jumbotron-heading">REBBL News Updates!</h1>
+          <p class="lead text-muted">Read the latest articles by the REBBL Writing Crew.</p>
+        </div>
+      </section>
+    <!-- Main Content -->
+      <div class="album py-5 bg-light">
+        <div class="container">
+			{% for row in posts|batch(3, '&nbsp;') %}
+			  <div class="row">
+				{% for post in row %}
+				  {% if post != '&nbsp;' %}
+				  <div class="col-md-4">
+					  <div class="card mb-4 shadow-sm  h-100">
+						<div class="card-body">
+						  <h5>
+						  {% if post.category == 'All' %}<span class="badge badge-warning">All&nbsp;Leagues</span>
+						  {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.gman_only') }}" class="badge badge-success">GMAN</a>
+						  {% elif post.category == 'Big O' %}<a href="{{ url_for('main.bigo_only') }}" class="badge badge-info">Big O</a>
+						  {% elif post.category == 'REL' %}<a href="{{ url_for('main.rel_only') }}" class="badge badge-danger">REL</a>
+						  {% elif post.category == 'Clan' %}<a href="{{ url_for('main.clan_only') }}" class="badge badge-secondary">Clan League</a>
+						  {% endif %}</h5>
+						  <h3>{{ post.title }}</h5>
+						  <p class="card-text">{{ post.shortdesc }}</p>
+						  <a href="{{ url_for('posts.post', post_id=post.id) }}"><button type="button" class="btn btn-primary btn-sm">Read More</button></a>
+						</div>
+						<div class="card-footer text-right">
+							By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+						</div>
+					  </div>
+				  </div>
+				  {% endif %}
+				{% endfor %}
+			  </div>
+			  <br />
+			{% endfor %}
+        </div>
+	  </div>
+{% endblock content %}
