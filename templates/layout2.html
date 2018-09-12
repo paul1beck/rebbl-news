@@ -36,7 +36,7 @@
 
     {% if title %}<title>REBBL News - {{ title }}</title>{% else %}<title>REBBL News</title>{% endif %}
 </head>
-<body>
+<body class="album bg-steel">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC6VJ5J"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -72,7 +72,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </nav>
     </header>
-    <main role="main" class="container">
+    <main role="main" class="container bg-steel">
       <div class="row">
         <div class="col-md-12">
           {% with messages = get_flashed_messages(with_categories=true) %}

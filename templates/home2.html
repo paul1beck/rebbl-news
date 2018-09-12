@@ -5,18 +5,18 @@
           <h1 class="jumbotron-heading bg-dark text-white d-inline-flex">REBBL News Updates!</h1>
           <p class="lead text-muted text-danger">Read the latest articles by the REBBL Writing Crew.</p>
       </div> -->
-	  <div class="jumbotron text-center jumbotron-fluid" style="padding:0rem">
+	  <div class="jumbotron text-center jumbotron-fluid bg-steel" style="padding:0rem" >
 	  <img src="{{ url_for('static', filename='jimbob.jpg') }}" class="img-fluid" alt="Responsive image">
       </div>
     <!-- Main Content -->
-      <div class="album bg-light">
+      <div class="album bg-steel">
         <div class="container">
 			{% for row in posts|batch(3, '&nbsp;') %}
 			  <div class="row">
 				{% for post in row %}
 				  {% if post != '&nbsp;' %}
 				  <div class="col-md-4 py-2">
-					  <div class="card mb-4 shadow-sm  h-100">
+					  <div class="card mb-4 shadow-sm  h-100" style="border-radius: 10px">
 						<div class="card-body">
 						  <h4>
 						  {% if post.category == 'All' %}<button class="btn btn-dark btn-sm float-right" style="border-radius: 10px" href="#">All</button>
