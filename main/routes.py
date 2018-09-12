@@ -12,8 +12,8 @@ def home():
     posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
     return render_template('home.html', posts=posts)
 
-@main.route("/test", methods=['GET'])
-def test():
+@main.route("/redesign", methods=['GET'])
+def redesign():
     posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc())
     return render_template('home2.html', posts=posts)
 

@@ -1,34 +1,35 @@
 {% extends "layout2.html" %}
 {% block content %}
-    <!-- Page Header -->
-      <section class="jumbotron text-center">
-        <div class="container">
-          <h1 class="jumbotron-heading">REBBL News Updates!</h1>
-          <p class="lead text-muted">Read the latest articles by the REBBL Writing Crew.</p>
-        </div>
-      </section>
+    <!-- Page Header
+      <div class="jumbotron text-center jumbotron-fluid" style="background: url('{{ url_for('static', filename='jimbob.jpg') }}')" class="fluid">
+          <h1 class="jumbotron-heading bg-dark text-white d-inline-flex">REBBL News Updates!</h1>
+          <p class="lead text-muted text-danger">Read the latest articles by the REBBL Writing Crew.</p>
+      </div> -->
+	  <div class="jumbotron text-center jumbotron-fluid" style="padding:0rem">
+	  <img src="{{ url_for('static', filename='jimbob.jpg') }}" class="img-fluid" alt="Responsive image">
+      </div>
     <!-- Main Content -->
-      <div class="album py-5 bg-light">
+      <div class="album bg-light">
         <div class="container">
 			{% for row in posts|batch(3, '&nbsp;') %}
 			  <div class="row">
 				{% for post in row %}
 				  {% if post != '&nbsp;' %}
-				  <div class="col-md-4">
+				  <div class="col-md-4 py-2">
 					  <div class="card mb-4 shadow-sm  h-100">
 						<div class="card-body">
-						  <h5>
-						  {% if post.category == 'All' %}<span class="badge badge-warning">All&nbsp;Leagues</span>
-						  {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.gman_only') }}" class="badge badge-success">GMAN</a>
-						  {% elif post.category == 'Big O' %}<a href="{{ url_for('main.bigo_only') }}" class="badge badge-info">Big O</a>
-						  {% elif post.category == 'REL' %}<a href="{{ url_for('main.rel_only') }}" class="badge badge-danger">REL</a>
-						  {% elif post.category == 'Clan' %}<a href="{{ url_for('main.clan_only') }}" class="badge badge-secondary">Clan League</a>
-						  {% endif %}</h5>
-						  <h3>{{ post.title }}</h5>
-						  <p class="card-text">{{ post.shortdesc }}</p>
-						  <a href="{{ url_for('posts.post', post_id=post.id) }}"><button type="button" class="btn btn-primary btn-sm">Read More</button></a>
+						  <h4>
+						  {% if post.category == 'All' %}<button class="btn btn-dark btn-sm float-right" style="border-radius: 10px" href="#">All</button>
+						  {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.gman_only') }}" style="border-radius: 10px; background-color:#000e77" class="btn btn-secondary btn-sm float-right">GMAN</a>
+						  {% elif post.category == 'Big O' %}<a href="{{ url_for('main.bigo_only') }}" style="border-radius: 10px; background-color:#917c06" class="btn btn-secondary btn-sm float-right">Big O</a>
+						  {% elif post.category == 'REL' %}<a href="{{ url_for('main.rel_only') }}" style="border-radius: 10px; background-color:#7e0000" class="btn btn-secondary btn-sm float-right">REL</a>
+						  {% elif post.category == 'Clan' %}<a href="{{ url_for('main.clan_only') }}" style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
+						  {% endif %}
+						  {{ post.title }} </h4>
+						  <p class="card-text text-justify">{{ post.shortdesc }}</p>
 						</div>
 						<div class="card-footer text-right">
+							<a href="{{ url_for('posts.post', post_id=post.id) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
 							By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
 						</div>
 					  </div>
@@ -36,7 +37,6 @@
 				  {% endif %}
 				{% endfor %}
 			  </div>
-			  <br />
 			{% endfor %}
         </div>
 	  </div>
