@@ -36,26 +36,33 @@
 
     {% if title %}<title>REBBL News - {{ title }}</title>{% else %}<title>REBBL News</title>{% endif %}
 </head>
-<body class="album bg-steel">
+<body class="album bg-steel" style="margin-top:4rem;">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC6VJ5J"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
           <a class="navbar-brand mr-4" href="/">REBBL News</a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('main.home') }}">All News</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.bigo') }}">Big O</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.gman') }}">GMAN</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.rel') }}">REL</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.clan') }}">Clan</a>
-            </div>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+              <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('main.home') }}">Announcements/General</a></li>
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  Leagues</a>
+				  <div class="dropdown-menu bg-steel" aria-labelledby="navbarDropdownMenuLink">
+				  <a class="nav-item nav-link" href="{{ url_for('main.bigo') }}">Big O</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.gman') }}">GMAN</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.rel') }}">REL</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.clan') }}">Clan</a>
+				  </div>
+			  </li>
+            </ul>
+		  </div>
             <!-- Navbar Right Side -->
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
@@ -72,7 +79,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div>
       </nav>
     </header>
-    <main role="main" class="container bg-steel">
+    <main role="main" class="container py-4">
       <div class="row">
         <div class="col-md-12">
           {% with messages = get_flashed_messages(with_categories=true) %}

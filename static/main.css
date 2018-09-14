@@ -12,6 +12,11 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #5f788a;
 }
 
+.bg-paper {
+  background-color: #F1F1D4;
+  background-image: url('http://m.rgbimg.com/cache1tNf09/users/x/xy/xymonau//300/nSydVZm.jpg')
+}
+
 .site-header .navbar-nav .nav-link {
   color: #cbd5db;
 }
