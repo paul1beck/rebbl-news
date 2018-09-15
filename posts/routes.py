@@ -34,6 +34,12 @@ def post(post_id):
     post = Post.query.get_or_404(post_id)
     return render_template('post.html', title=post.title, shortdesc=post.shortdesc, post=post)
 
+@posts.route("/post2/<int:post_id>")
+def post2(post_id):
+    post = Post.query.get_or_404(post_id)
+    posts = Post.query.filter(Post.id != post_id).filter_by(published=True).order_by(Post.date_posted.desc()).limit(5)
+    return render_template('post2.html', title=post.title, shortdesc=post.shortdesc, post=post, posts=posts)
+
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required

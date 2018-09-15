@@ -6,7 +6,7 @@
           <p class="lead text-muted text-danger">Read the latest articles by the REBBL Writing Crew.</p>
       </div> -->
 	  <div class="jumbotron text-center jumbotron-fluid" style="padding:0rem;" >
-	  <img src="{{ url_for('static', filename='bobjim2.jpg') }}" class="img-fluid rounded" alt="Responsive image">
+	    <img src="{{ url_for('static', filename='bobjim2.jpg') }}" class="img-fluid rounded" alt="Responsive image">
       </div>
     <!-- Main Content -->
       <div class="album">
@@ -29,7 +29,7 @@
 						  <p class="card-text text-justify">{{ post.shortdesc }}</p>
 						</div>
 						<div class="card-footer text-right">
-							<a href="{{ url_for('posts.post', post_id=post.id) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
+							<a href="{{ url_for('posts.post2', post_id=post.id) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
 							By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
 						</div>
 					  </div>
