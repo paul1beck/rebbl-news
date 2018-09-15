@@ -12,6 +12,11 @@ def home():
     posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
     return render_template('home.html', posts=posts)
 
+@main.route("/all", methods=['GET'])
+def all():
+    posts = Post.query.filter_by(category="All", published=True).order_by(Post.date_posted.desc())
+    return render_template('home2.html', posts=posts)
+
 @main.route("/redesign", methods=['GET'])
 def redesign():
     posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc())
@@ -35,9 +40,8 @@ def clan():
 
 @main.route("/clan/only", methods=['GET'])
 def clan_only():
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.filter_by(category="Clan", published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
-    return render_template('home.html', posts=posts)
+    posts = Post.query.filter_by(category="Clan", published=True).order_by(Post.date_posted.desc())
+    return render_template('home2.html', posts=posts)
 
 @main.route("/rel")
 def rel():
@@ -47,9 +51,8 @@ def rel():
 
 @main.route("/rel/only", methods=['GET'])
 def rel_only():
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.filter_by(category="REL", published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
-    return render_template('rel.html', posts=posts)
+    posts = Post.query.filter_by(category="REL", published=True).order_by(Post.date_posted.desc())
+    return render_template('home2.html', posts=posts)
 
 @main.route("/gman")
 def gman():
@@ -59,9 +62,8 @@ def gman():
 
 @main.route("/gman/only", methods=['GET'])
 def gman_only():
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.filter_by(category="GMAN", published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
-    return render_template('gman.html', posts=posts)
+    posts = Post.query.filter_by(category="GMAN", published=True).order_by(Post.date_posted.desc())
+    return render_template('home2.html', posts=posts)
 
 @main.route("/big-o")
 def bigo():
@@ -71,6 +73,5 @@ def bigo():
 
 @main.route("/big-o/only", methods=['GET'])
 def bigo_only():
-    page = request.args.get('page', 1, type=int)
-    posts = Post.query.filter_by(category="Big O", published=True).order_by(Post.date_posted.desc()).paginate(page=page, per_page=10)
-    return render_template('bigo.html', posts=posts)
+    posts = Post.query.filter_by(category="Big O", published=True).order_by(Post.date_posted.desc())
+    return render_template('home2.html', posts=posts)

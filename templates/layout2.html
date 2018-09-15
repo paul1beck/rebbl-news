@@ -48,17 +48,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 			  <li class="nav-item">
-				<a class="nav-item nav-link" href="{{ url_for('main.home') }}">Announcements/General</a>
+				<a class="nav-item nav-link" href="{{ url_for('main.all') }}">Announcements/General</a>
 			  </li>
 			  <li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Leagues
 				</a>
 				<div class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdown">
-				  <a class="nav-item nav-link" href="{{ url_for('main.bigo') }}">Big O</a>
-				  <a class="nav-item nav-link" href="{{ url_for('main.gman') }}">GMAN</a>
-				  <a class="nav-item nav-link" href="{{ url_for('main.rel') }}">REL</a>
-				  <a class="nav-item nav-link" href="{{ url_for('main.clan') }}">Clan</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.bigo_only') }}">Big O</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.gman_only') }}">GMAN</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.rel_only') }}">REL</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.clan_only') }}">Clan</a>
 				</div>
 			  </li>
 			</ul>
