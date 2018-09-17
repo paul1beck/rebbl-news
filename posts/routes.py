@@ -23,7 +23,6 @@ def new_post():
         return redirect(url_for('posts.post', post_id=post.id))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
-
     if form.validate_on_submit():
         post = Post(title=form.title.data, content=form.content.data, author=current_user)
         db.session.add(post)
@@ -32,15 +31,9 @@ def new_post():
 @posts.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, shortdesc=post.shortdesc, post=post)
-
-@posts.route("/post2/<int:post_id>")
-def post2(post_id):
-    post = Post.query.get_or_404(post_id)
     category = post.category
     posts = Post.query.filter(Post.id!=post_id, Post.category==category,Post.published==True).order_by(Post.date_posted.desc()).limit(5)
-    return render_template('post2.html', title=post.title, shortdesc=post.shortdesc, post=post, posts=posts)
-
+    return render_template('post.html', title=post.title, shortdesc=post.shortdesc, post=post, posts=posts)
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -64,7 +57,6 @@ def update_post(post_id):
         form.content.data = post.content
     return render_template('create_post.html', title='Update Post',
                            form=form, legend='Update Post')
-
 
 @posts.route("/post/<int:post_id>/delete", methods=['POST'])
 @login_required

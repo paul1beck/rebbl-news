@@ -24,48 +24,62 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='main.css') }}">
+	
+
+    <!-- Custom fonts for this template -->
+    <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 
     {% if title %}<title>REBBL News - {{ title }}</title>{% else %}<title>REBBL News</title>{% endif %}
 </head>
-<body>
+<body class="album bg-steel" style="margin-top:4rem;">
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KC6VJ5J"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
     <header class="site-header">
-      <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
-        <div class="container">
-          <a class="navbar-brand mr-4" href="/">REBBL News</a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarToggle">
-            <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{ url_for('main.home') }}">All News</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.bigo') }}">Big O</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.gman') }}">GMAN</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.rel') }}">REL</a>
-              <a class="nav-item nav-link" href="{{ url_for('main.clan') }}">Clan</a>
-            </div>
-            <!-- Navbar Right Side -->
-            <div class="navbar-nav">
-              {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New Post</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.my_posts') }}">My Posts</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
+		<nav class="navbar navbar-expand-lg navbar-dark  bg-dark fixed-top">
+		<div class="container">
+		  <a class="navbar-brand" href="/">REBBL News</a>
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav mr-auto">
+			  <li class="nav-item">
+				<a class="nav-item nav-link" href="{{ url_for('main.category', category="All") }}">Announcements/General</a>
+			  </li>
+			  <li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				  Leagues
+				</a>
+				<div class="dropdown-menu bg-secondary" aria-labelledby="navbarDropdown">
+				  <a class="nav-item nav-link" href="{{ url_for('main.category', category="Big O") }}">Big O</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.category', category="GMAN") }}">GMAN</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.category', category="REL") }}">REL</a>
+				  <a class="nav-item nav-link" href="{{ url_for('main.category', category="Clan") }}">Clan</a>
+				</div>
+			  </li>
+			</ul>
+			<ul class="navbar-nav">
+			  {% if current_user.is_authenticated %}
+                <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('posts.new_post') }}">New Post</a>
+                <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('users.my_posts') }}">My Posts</a>
+                <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('users.account') }}">Account</a>
+                <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('users.logout') }}">Logout</a>
               {% else %}
-                <a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
-                <a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
+                <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('users.login') }}">Login</a>
+                <li class="nav-item"><a class="nav-item nav-link" href="{{ url_for('users.register') }}">Register</a>
               {% endif %}
-            </div>
-          </div>
-        </div>
-      </nav>
+			  </ul>
+		  </div>
+		  </div>
+		</nav>
     </header>
-    <main role="main" class="container">
+    <main role="main" class="container py-4">
       <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
           {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
               {% for category, message in messages %}
@@ -77,21 +91,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           {% endwith %}
           {% block content %}{% endblock %}
         </div>
-        <div class="col-md-4">
-          <div class="content-section">
-            <h3>More REBBL Content</h3>
-            <p class='text-muted'>These links lead to other REBBL related content, information, and websites.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light"><a href="{{ url_for('main.home') }}">Latest News Posts</a></li>
-                <li class="list-group-item list-group-item-light"><a href="https://www.reddit.com/r/ReBBl/" target="_blank">REBBL Reddit Homepage</a></li>
-                <li class="list-group-item list-group-item-light"><a href="https://rebbl.net" target="_blank">REBBL Match Ups and Stats</li>
-                <li class="list-group-item list-group-item-light"><a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis</li>
-				
-                <li class="list-group-item list-group-item-light"><a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a></li>
-              </ul>
-            </p>
-          </div>
-        </div>
       </div>
     </main>
 
@@ -101,5 +100,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 </body>
 </html>
