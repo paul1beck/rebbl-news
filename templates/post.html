@@ -27,19 +27,19 @@
 			</div>
 		</article></div>
 		<div class="col-md-4 py-2">
-          <div class="content-section">
-            <h3>More REBBL Content</h3>
-            <p class='text-muted'>These links lead to other REBBL related content, information, and websites.
-              <ul class="list-group">
-                <li class="list-group-item list-group-item-light"><a href="{{ url_for('main.home') }}">Latest News Posts</a></li>
-                <li class="list-group-item list-group-item-light"><a href="https://www.reddit.com/r/ReBBl/" target="_blank">REBBL Reddit Homepage</a></li>
-                <li class="list-group-item list-group-item-light"><a href="https://rebbl.net" target="_blank">REBBL Match Ups and Stats</li>
-                <li class="list-group-item list-group-item-light"><a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis</li>
-				
-                <li class="list-group-item list-group-item-light"><a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a></li>
-              </ul>
-            </p>
-          </div>
+		  <div class="card mb-4 shadow-sm" style="border-radius: 10px">
+			<div class="card-body bg-light" style="border-radius: 10px">
+			  <h4>More REBBL Content</h4>
+			  <p class="card-text text-justify">These links lead to other REBBL related content, information, and websites.</p>
+              <p>
+                <a href="{{ url_for('main.home') }}">Latest News Posts</a><br />
+                <a href="https://www.reddit.com/r/ReBBl/" target="_blank">REBBL Reddit Homepage</a><br />
+                <a href="https://rebbl.net" target="_blank">REBBL Match Ups and Stats<br />
+                <a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis<br />
+                <a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a><br />
+              </p>
+			</div>
+		  </div>
 			{% for post in posts %}
 		  <div class="card mb-4 shadow-sm" style="border-radius: 10px">
 			<div class="card-body bg-light" style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
