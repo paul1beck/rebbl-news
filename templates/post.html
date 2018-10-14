@@ -2,13 +2,17 @@
 {% block content %}
      <main role="main" class="container">
       <div class="row">
+	  	{% if post.sidebar != False %}
         <div class="col-md-8 py-2"><article class="media content-section">
+		{% else %}
+		<div class="col-md-12 py-2"><article class="media content-section">
+		{% endif %}
 			<div class="media-body">
 			  <div class="article-metadata">
 				<img class="article-img" style="float:left" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
 				<h2 class="article-title" style="margin-bottom: 10px;">{{ post.title }} 
 				<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small></h2>
-				{% if (post.author == current_user or current_user.role == 'Admin') %}
+				{% if post.author == current_user %}
 				  <div>
 					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
 					<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
@@ -19,17 +23,46 @@
 					{% endif %}
 				  </div>
 				{% endif %}
+				{% for role in current_user.role %}
+					{% if role|e == 'Admin' %}
+					  <div>
+						<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+						<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
+						{% if post.published == False %}
+						  <button type="button" class="btn btn-success btn-sm m-1" data-toggle="modal" data-target="#publishModal">Publish</button>
+						{% elif post.published == True %}
+						  <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#unpublishModal">Unpublish</button>
+						{% endif %}
+					  </div>
+					{% endif %}
+				{% endfor %}
 			  </div>
 
 			  <div class="article-content">{{ post.content | safe }}</div>
 			  <h3> - {{ post.author.coachname }}</h3>
 			  <p><a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">Read more from this writer.</a></p>
 			</div>
-		</article></div>
+		</article>
+		{% if comments %}
+        <article class="media content-section">
+			<div class="media-body">
+			  <h4>Comments</h4>
+			  {% for comment in comments %}
+			  <p class="card-text text-left">{{ comment.content }} - <a class="mr-2" href="{{ url_for('users.user_posts', coachname=comment.user.coachname) }}">{{ comment.user.coachname }}</a> {% if comment.user.coachname == current_user.coachname %}<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteCommentModal">Delete Comment</button>{% endif %}</p>
+			  {% endfor %}
+			  {% if current_user.is_authenticated %}
+			  <button type="button" class="btn btn-success btn-sm m-1" data-toggle="modal" data-target="#addCommentModal">Add Comment</button>
+			  {% endif %}
+		  </div>
+		</article>
+		{% endif %}
+		</div>
+	  	{% if post.sidebar != False %}
 		<div class="col-md-4 py-2">
 		  <div class="card mb-4 shadow-sm" style="border-radius: 10px">
 			<div class="card-body bg-light" style="border-radius: 10px">
 			  <h4>More REBBL Content</h4>
+			  
 			  <p class="card-text text-justify">These links lead to other REBBL related content, information, and websites.</p>
               <p>
                 <a href="{{ url_for('main.home') }}">Latest News Posts</a><br />
@@ -38,6 +71,7 @@
                 <a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis<br />
                 <a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a><br />
               </p>
+			  
 			</div>
 		  </div>
 			{% for post in posts %}
@@ -60,6 +94,37 @@
 		  </div>
 			{% endfor %}
         </div>
+		{% else %}
+			{% for row in posts|batch(3, '&nbsp;') %}
+			  <div class="row">
+				{% for post in row %}
+				  {% if post != '&nbsp;' %}
+				  <div class="col-md-4 py-2">
+					  <div class="card mb-4 shadow-sm  h-100" style="border-radius: 10px">
+						<div class="card-body bg-light" style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
+						  <h4>
+						  {% if post.category == 'All' %}<a class="btn btn-dark btn-sm float-right" style="border-radius: 10px" href="{{ url_for('main.category', category="All") }}">All</a>
+						  {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.category', category="GMAN") }}" style="border-radius: 10px; background-color:#000e77" class="btn btn-secondary btn-sm float-right">GMAN</a>
+						  {% elif post.category == 'Big O' %}<a href="{{ url_for('main.category', category="Big O") }}" style="border-radius: 10px; background-color:#917c06" class="btn btn-secondary btn-sm float-right">Big O</a>
+						  {% elif post.category == 'REL' %}<a href="{{ url_for('main.category', category="REL") }}" style="border-radius: 10px; background-color:#7e0000" class="btn btn-secondary btn-sm float-right">REL</a>
+						  {% elif post.category == 'Clan' %}<a href="{{ url_for('main.category', category="Clan") }}" style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
+						  {% endif %}
+						  {{ post.title }} </h4>
+						  <p class="card-text text-justify">{{ post.shortdesc }}</p>
+						</div>
+						<div class="card-footer text-right">
+							<a href="{{ url_for('posts.post', post_id=post.id) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
+							By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+						</div>
+					  </div>
+				  </div>
+				  {% endif %}
+				{% endfor %}
+			  </div>
+			{% endfor %}
+		{% endif %}
+	  </div>
+	</main>
   <!-- Delete Modal -->
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -119,5 +184,6 @@
       </div>
     </div>	
   </div>
-  
+
+
 {% endblock content %}

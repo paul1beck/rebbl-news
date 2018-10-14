@@ -22,7 +22,7 @@ def create_app(config_class=Config):
     app.config.from_object(Config)
     db.init_app(app)
     with app.app_context():
-        from flaskblog.models import User, UserRole, Post #, PostComment #, PostCategory
+        from flaskblog.models import User, UserRole, Post , PostComment #, PostCategory
         db.create_all()
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -39,4 +39,5 @@ def create_app(config_class=Config):
     admin = Admin(app, name='Dashboard', index_view=AdminView(User, db.session, url='/admin', endpoint='admin'))
     admin.add_view(AdminView(UserRole, db.session))
     admin.add_view(AdminView(Post, db.session))
+    admin.add_view(AdminView(PostComment, db.session))
     return app

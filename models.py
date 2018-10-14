@@ -17,6 +17,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     role = db.relationship('UserRole', backref='users', lazy=True)
     posts = db.relationship('Post', backref='author', lazy=True)
+    comments = db.relationship('PostComment', backref='user', lazy=True)
     
     def get_reset_token(self, expires_sec=1800):
         s = Serializer(current_app.config['SECRET_KEY'], expires_sec)
@@ -49,8 +50,10 @@ class Post(db.Model):
     content = db.Column(db.Text, nullable=False)
     shortdesc = db.Column(db.String(250), nullable=True)
 #    image_file = db.Column(db.String(20), nullable=True, default='default.png')
+    sidebar = db.Column(db.Boolean, default=True)
     published = db.Column(db.Boolean, default=False)
     category = db.Column(db.String(20), nullable=True)
+    slug = db.Column(db.String(100), nullable=False)
     comments = db.relationship('PostComment', backref='post', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
@@ -62,6 +65,7 @@ class PostComment(db.Model):
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
     
     def __repr__(self):
         return f"Post('{self.content}', '{self.date_posted}')"
