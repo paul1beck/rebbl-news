@@ -23,7 +23,7 @@ def new_post():
         post.slug = (slugify(form.title.data, max_length=35).lower()+"-"+str(post.id))
         db.session.commit()
         flash('Your post has been created!', 'success')
-        return redirect(url_for('posts.post', post_id=post.id))
+        return redirect(url_for('posts.postslug', post_slug=post.slug))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
     if form.validate_on_submit():

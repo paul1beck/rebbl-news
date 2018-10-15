@@ -29,7 +29,7 @@
 						  <p class="card-text text-justify">{{ post.shortdesc }}</p>
 						</div>
 						<div class="card-footer text-right">
-							<a href="{{ url_for('posts.post', post_id=post.id) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
+							<a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
 							By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
 						</div>
 					  </div>
