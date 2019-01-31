@@ -13,7 +13,7 @@
 				<h2 class="article-title" style="margin-bottom: 10px;">{{ post.title }} 
 				<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small></h2>
 			  {% for role in current_user.role %}
-				{% if role|e == 'Admin' or comment.user.coachname == current_user.coachname %}
+				{% if role|e == 'Admin' or post.author.coachname == current_user.coachname %}
 				  <div>
 					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
 					<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
