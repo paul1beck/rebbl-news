@@ -13,7 +13,7 @@
 				<h2 class="article-title" style="margin-bottom: 10px;">{{ post.title }} 
 				<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small></h2>
 			  {% for role in current_user.role %}
-				{% if role|e == 'Admin' or post.author.coachname == current_user.coachname %}
+				{% if post.author.coachname == current_user.coachname %}
 				  <div>
 					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
 					<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
@@ -40,7 +40,7 @@
 			  {% for comment in comments %}
 			  <p class="d-inline card-text text-left">{{ comment.content }} - <a class="mr-2" href="{{ url_for('users.user_posts', coachname=comment.user.coachname) }}">{{ comment.user.coachname }}</a> 
 			  {% for role in current_user.role %}
-				{% if role|e == 'Admin' or comment.user.coachname == current_user.coachname %}
+				{% if comment.user.coachname == current_user.coachname %}
 			  <div class="d-inline btn-group" role="group">
 				<button id="btnGroupDrop{{ comment.id }}" type="button" class="btn btn-danger dropdown-toggle btn-sm m-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				  Delete Comment
