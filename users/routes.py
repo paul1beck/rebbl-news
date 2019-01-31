@@ -73,7 +73,7 @@ def user_posts(coachname):
     user = User.query.filter_by(coachname=coachname).first_or_404()
     posts = Post.query.filter_by(author=user, published=True)\
         .order_by(Post.date_posted.desc())\
-        .paginate(page=page, per_page=5)
+        .paginate(page=page, per_page=10)
     return render_template('user_posts.html', posts=posts, user=user)
 
 @users.route("/my_posts")
@@ -83,7 +83,7 @@ def my_posts():
     user = User.query.filter_by(coachname=current_user.coachname).first_or_404()
     posts = Post.query.filter_by(author=user)\
         .order_by(Post.date_posted.desc())\
-        .paginate(page=page, per_page=5)
+        .paginate(page=page, per_page=10)
     return render_template('my_posts.html', posts=posts, user=user)
 
 @users.route("/reset_password", methods=['GET', 'POST'])
