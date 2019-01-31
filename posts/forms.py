@@ -9,4 +9,7 @@ class PostForm(FlaskForm):
     shortdesc = TextAreaField('Short Description', validators=[DataRequired()])
     content = CKEditorField('Content', validators=[DataRequired()])
     submit = SubmitField('Post')
-    
+
+class CommentForm(FlaskForm):
+    content = StringField('Add a Comment', validators=[DataRequired()])
+    submit = SubmitField('Post')

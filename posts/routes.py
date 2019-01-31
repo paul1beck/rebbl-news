@@ -3,7 +3,7 @@ from flask import (render_template, url_for, flash,
 from flask_login import current_user, login_required
 from flaskblog import db
 from flaskblog.models import Post, PostComment
-from flaskblog.posts.forms import PostForm
+from flaskblog.posts.forms import PostForm, CommentForm
 from datetime import datetime
 from slugify import slugify
 
@@ -22,30 +22,47 @@ def new_post():
         db.session.commit()
         post.slug = (slugify(form.title.data, max_length=35).lower()+"-"+str(post.id))
         db.session.commit()
-        flash('Your post has been created!', 'success')
+        flash('Your comment has been added!', 'success')
         return redirect(url_for('posts.postslug', post_slug=post.slug))
     return render_template('create_post.html', title='New Post',
                            form=form, legend='New Post')
-    if form.validate_on_submit():
-        post = Post(title=form.title.data, content=form.content.data, author=current_user)
-        db.session.add(post)
-        db.session.commit()
 
-@posts.route("/post/<int:post_id>")
+
+@posts.route("/post/<int:post_id>",  methods=['GET', 'POST'])
 def post(post_id):
-    post = Post.query.get_or_404(post_id)
+    post = Post.query.filter_by(id=post_id).first()
+    post_id = post.id
     category = post.category
-    comments = PostComment.query.filter(PostComment.post_id==post_id).order_by(PostComment.date_posted.desc())
+    comments = PostComment.query.filter(PostComment.post_id==post_id).order_by(PostComment.date_posted.asc())
     posts = Post.query.filter(Post.id!=post_id, Post.category==category,Post.published==True).order_by(Post.date_posted.desc()).limit(6)
-    return render_template('post.html', title=post.title, shortdesc=post.shortdesc, post=post, posts=posts) #, comments=comments
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = PostComment(content=form.content.data, user=current_user, post_id=post.id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been added!', 'success')
+        return redirect(url_for('posts.post', _anchor='commentsection', post_id=post.id))
+    
+    return render_template('post.html', form=form, title=post.title, shortdesc=post.shortdesc, post=post, posts=posts, comments=comments)
 
-@posts.route("/post/<string:post_slug>")
+
+@posts.route("/post/<string:post_slug>",  methods=['GET', 'POST'])
 def postslug(post_slug):
     post = Post.query.filter_by(slug=post_slug).first()
     post_id = post.id
+    comments = PostComment.query.filter(PostComment.post_id==post_id).order_by(PostComment.date_posted.asc())
     category = post.category
     posts = Post.query.filter(Post.id!=post_id, Post.category==category,Post.published==True).order_by(Post.date_posted.desc()).limit(5)
-    return render_template('post.html', title=post.title, shortdesc=post.shortdesc, post=post, posts=posts)
+    form = CommentForm()
+    if form.validate_on_submit():
+        comment = PostComment(content=form.content.data, user=current_user, post_id=post.id)
+        db.session.add(comment)
+        db.session.commit()
+        flash('Your comment has been added!', 'success')
+        return redirect(url_for('posts.postslug', _anchor='commentsection', post_slug=post.slug))
+    
+    return render_template('post.html', form=form, title=post.title, shortdesc=post.shortdesc, post=post, posts=posts, comments=comments)
+
 
 @posts.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
 @login_required
@@ -62,7 +79,7 @@ def update_post(post_id):
         post.content = form.content.data
         db.session.commit()
         flash('Your post has been updated!', 'success')
-        return redirect(url_for('posts.post', post_id=post.id))
+        return redirect(url_for('posts.postslug', post_slug=post.slug))
     elif request.method == 'GET':
         form.title.data = post.title
         form.category.data = post.category
@@ -92,7 +109,7 @@ def publish_post(post_id):
     post.date_posted = datetime.utcnow()
     db.session.commit()
     flash('Your post has been Published!', 'success')
-    return redirect(url_for('posts.post', post_id=post.id))
+    return redirect(url_for('posts.postslug', post_slug=post.slug))
 
 @posts.route("/post/<int:post_id>/unpublish", methods=['POST'])
 @login_required
@@ -100,21 +117,22 @@ def unpublish_post(post_id):
     post = Post.query.get_or_404(post_id)
     if post.author != current_user:
         if current_user.role != "Admin":
-            redirect(url_for('posts.post', post_id=post.id))
+            redirect(url_for('posts.postslug', post_slug=post.slug))
     post.published = False
     db.session.commit()
     flash('Your post has been Unpublished!', 'success')
-    return redirect(url_for('posts.post', post_id=post.id))
+    return redirect(url_for('posts.postslug', post_slug=post.slug))
 
-@posts.route("/postcomment/<int:post_id>/delete", methods=['POST'])
+@posts.route("/postcomment/<int:post_id>/<int:comment_id>/delete", methods=['POST'])
 @login_required
-def delete_comment(comment_id):
+def delete_comment(comment_id, post_id):
     comment = PostComment.query.get_or_404(comment_id)
-    if comment.author != current_user:
-        abort(403)
+    post = Post.query.get_or_404(post_id)
+#    if comment.user != current_user:
+#        abort(403)
     db.session.delete(comment)
     db.session.commit()
-    flash('Your comment has been deleted!', 'success')
-    return redirect(url_for('posts.post', post_id=post.id))
+    flash('Comment has been deleted!', 'success')
+    return redirect(url_for('posts.postslug', post_slug=post.slug))
 
 
