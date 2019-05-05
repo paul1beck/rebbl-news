@@ -1,3 +1,8 @@
+@font-face {
+  font-family: Nuffle;
+  src: url('static/Nuffle.woff') format("woff");
+}
+
 body {
   background: #fafafa;
   color: #333333;
@@ -8,13 +13,18 @@ h1, h2, h3, h4, h5, h6 {
   color: #444444;
 }
 
-.bg-steel {
-  background-color: #5f788a;
-}
+h1 {font-family: Boogaloo; text-transform: uppercase;}
+h2 {font-family: 'Playfair Display','Droid Serif'}
+h3 {font-family: 'Droid Serif' }
+h4 {font-family: Boogaloo, sans-serif}
+h5 {font-family: Sanchez }
 
-.bg-paper {
-  background-color: #F1F1D4;
-  background-image: url('http://m.rgbimg.com/cache1tNf09/users/x/xy/xymonau//300/nSydVZm.jpg')
+.bg-paper3 {
+  background-color: transparent;
+  background-image: url('/static/parchment.jpg');
+  background-repeat: no-repeat; 
+  background-position: center;
+  background-attachment: fixed;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -29,28 +39,50 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 500;
 }
 
+.carousel-item.img {
+  max-width:100%;
+  max-height:100%;
+  height: auto;
+  width:auto;
+}
+
+.font-carousel {
+  font-family:Boogaloo;
+  color: DarkRed; 
+  text-shadow:2px 2px 2px #F1F1D4,-2px 2px 2px #F1F1D4,2px -2px 2px #F1F1D4,-2px -2px 2px #F1F1D4;
+  -webkit-text-stroke: 1px black;
+  -webkit-text-fill-color: DarkRed;
+}
+
 .content-section {
-  background: #ffffff;
+  background: rgba(255, 255, 255, .8);
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
 }
 
+.article.media.content-section {
+  background: rgba(255, 255, 255, .3)
+}
+
 .article-title {
-  color: #444444;
+  color: DarkRed; 
+  -webkit-text-stroke: 1px black;
 }
 
 a.article-title:hover {
   color: #428bca;
   text-decoration: none;
+  -webkit-text-stroke: none;
+  -webkit-text-fill-color: none;
 }
 
 .article-content table {
   width: 100%;
   max-width: 100%;
   margin-bottom: 1rem;
-  background-color: transparent;
+  background-color: transparent; 
   border-collapse: collapse;
   border-spacing: 2px;
   border-color: grey;
@@ -110,7 +142,7 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
-	
+
 .table {
    display: block !important;
 }

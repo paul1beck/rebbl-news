@@ -1,220 +1,326 @@
 {% extends "layout.html" %}
 {% block content %}
-     <main role="main" class="container">
-      <div class="row">
-	  	{% if post.sidebar != False %}
-        <div class="col-md-8 py-2"><article class="media content-section">
-		{% else %}
-		<div class="col-md-12 py-2"><article class="media content-section">
-		{% endif %}
-			<div class="media-body">
-			  <div class="article-metadata">
-				<img class="article-img" style="float:left" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
-				<h2 class="article-title" style="margin-bottom: 10px;">{{ post.title }} 
-				<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small></h2>
-			  {% for role in current_user.role %}
-				{% if post.author.coachname == current_user.coachname %}
-				  <div>
-					<a class="btn btn-secondary btn-sm mt-1 mb-1" href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
-					<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal" data-target="#deleteModal">Delete</button>
-					{% if post.published == False %}
-					  <button type="button" class="btn btn-success btn-sm m-1" data-toggle="modal" data-target="#publishModal">Publish</button>
-					{% elif post.published == True %}
-					  <button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal" data-target="#unpublishModal">Unpublish</button>
-					{% endif %}
-				  </div>
-				{% endif %}
-			  {% endfor %}
-			  </div>
-
-			  <div class="article-content">{{ post.content | safe }}</div>
-			  <h3> - {{ post.author.coachname }}</h3>
-			  <p><a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">Read more from this writer.</a></p>
-			</div>
-		</article>
-		{% if comments %}
-        <article class="media content-section">
-			<div class="media-body">
-			<a id="commentsection"></a>
-			  <h4>Comments</h4>
-			  {% for comment in comments %}
-			  <p class="d-inline card-text text-left">{{ comment.content }} - <a class="mr-2" href="{{ url_for('users.user_posts', coachname=comment.user.coachname) }}">{{ comment.user.coachname }}</a> 
-			  {% for role in current_user.role %}
-				{% if comment.user.coachname == current_user.coachname %}
-			  <div class="d-inline btn-group" role="group">
-				<button id="btnGroupDrop{{ comment.id }}" type="button" class="btn btn-danger dropdown-toggle btn-sm m-1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-				  Delete Comment
-				</button>
-				<div class="dropdown-menu" aria-labelledby="btnGroupDrop{{ comment.id }}">
-				  <form action="{{ url_for('posts.delete_comment', comment_id=comment.id, post_id=post.id) }}" method="POST">
-					<input class="dropdown-item" type="submit" value="Confirm">
-				  </form>
-				</div>
-			  </div>
-			  {% endif %}{% endfor %}
-			  </p>
-
-			  {% endfor %}
-			  {% if current_user.is_authenticated %}
-			  
-				<form method="POST" action="">
-					{{ form.hidden_tag() }}
-					<fieldset class="form-group">
-						<legend class="border-bottom mb-4">{{ legend }}</legend>
-						<div class="form-group">
-							{{ form.content.label(class="form-control-label") }}
-							{% if form.content.errors %}
-								{{ form.content(class="form-control form-control-lg is-invalid") }}
-								<div class="invalid-feedback">
-									{% for error in form.content.errors %}
-										<span>{{ error }}</span>
-									{% endfor %}
+<main role="main" class="container">
+	<div class="row">
+		{% if post.sidebar != False %}
+		<div class="col-md-8 py-2">
+			<article class="media content-section">
+				{% else %}
+				<div class="col-md-12 py-2">
+					<article class="media content-section">
+						{% endif %}
+						<div class="media-body">
+							<div class="article-metadata">
+								<img class="article-img" style="float:left"
+									src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+								<h1 class="article-title" style="margin-bottom: 10px;">{{ post.title }}
+									<small class="text-muted">&nbsp;-&nbsp;By&nbsp;<a class="mr-2"
+											href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></small>
+								</h1>
+								{% for role in current_user.role %}
+								{% if post.author.coachname == current_user.coachname %}
+								<div>
+									<a class="btn btn-secondary btn-sm mt-1 mb-1"
+										href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+									<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal"
+										data-target="#deleteModal">Delete</button>
+									{% if post.published == False %}
+									<button type="button" class="btn btn-success btn-sm m-1" data-toggle="modal"
+										data-target="#publishModal">Publish</button>
+									{% elif post.published == True %}
+									<button type="button" class="btn btn-secondary btn-sm m-1" data-toggle="modal"
+										data-target="#unpublishModal">Unpublish</button>
+									{% endif %}
 								</div>
-							{% else %}
-								{{ form.content(class="form-control form-control-lg") }}
-							{% endif %}
-						</div>
-					</fieldset>
-					<div class="form-group">
-						{{ form.submit(class="btn btn-outline-info") }}
-					</div>
-				</form>
-			  {% else %}
-			  <p></p><p><a class="btn btn-success btn-sm m-1" href="{{ url_for('users.login') }}">Log in to add a comment</a></p>
-			  {% endif %}
+								{% endif %}
+								{% endfor %}
+							</div>
 
-		  </div>
-		</article>
-		{% endif %}
-		</div>
-	  	{% if post.sidebar != False %}
-		<div class="col-md-4 py-2">
-		  <div class="card mb-4 shadow-sm" style="border-radius: 10px">
-			<div class="card-body bg-light" style="border-radius: 10px">
-			  <h4>More REBBL Content</h4>
-			  
-			  <p class="card-text text-justify">These links lead to other REBBL related content, information, and websites.</p>
-              <p>
-                <a href="{{ url_for('main.home') }}">Latest News Posts</a><br />
-                <a href="https://www.reddit.com/r/ReBBl/" target="_blank">REBBL Reddit Homepage</a><br />
-                <a href="https://rebbl.net" target="_blank">REBBL Match Ups and Stats<br />
-                <a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis<br />
-                <a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a><br />
-              </p>
-			  
-			</div>
-		  </div>
-			{% for post in posts %}
-		  <div class="card mb-4 shadow-sm" style="border-radius: 10px">
-			<div class="card-body bg-light" style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
-			  <h4>
-				  {% if post.category == 'All' %}<button class="btn btn-dark btn-sm float-right" style="border-radius: 10px" href="{{ url_for('main.category', category="All") }}">All</button>
-				  {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.category', category="GMAN") }}" style="border-radius: 10px; background-color:#000e77" class="btn btn-secondary btn-sm float-right">GMAN</a>
-				  {% elif post.category == 'Big O' %}<a href="{{ url_for('main.category', category="Big O") }}" style="border-radius: 10px; background-color:#917c06" class="btn btn-secondary btn-sm float-right">Big O</a>
-				  {% elif post.category == 'REL' %}<a href="{{ url_for('main.category', category="REL") }}" style="border-radius: 10px; background-color:#7e0000" class="btn btn-secondary btn-sm float-right">REL</a>
-				  {% elif post.category == 'Clan' %}<a href="{{ url_for('main.category', category="Clan") }}" style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
-				  {% endif %}
-			  {{ post.title }} </h4>
-			  <p class="card-text text-justify">{{ post.shortdesc }}</p>
-			</div>
-			<div class="card-footer text-right">
-				<a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
-				By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
-			</div>
-		  </div>
-			{% endfor %}
-        </div>
-		{% else %}
-			{% for row in posts|batch(3, '&nbsp;') %}
-			  <div class="row">
-				{% for post in row %}
-				  {% if post != '&nbsp;' %}
-				  <div class="col-md-4 py-2">
-					  <div class="card mb-4 shadow-sm  h-100" style="border-radius: 10px">
-						<div class="card-body bg-light" style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
-						  <h4>
-						  {% if post.category == 'All' %}<a class="btn btn-dark btn-sm float-right" style="border-radius: 10px" href="{{ url_for('main.category', category="All") }}">All</a>
-						  {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.category', category="GMAN") }}" style="border-radius: 10px; background-color:#000e77" class="btn btn-secondary btn-sm float-right">GMAN</a>
-						  {% elif post.category == 'Big O' %}<a href="{{ url_for('main.category', category="Big O") }}" style="border-radius: 10px; background-color:#917c06" class="btn btn-secondary btn-sm float-right">Big O</a>
-						  {% elif post.category == 'REL' %}<a href="{{ url_for('main.category', category="REL") }}" style="border-radius: 10px; background-color:#7e0000" class="btn btn-secondary btn-sm float-right">REL</a>
-						  {% elif post.category == 'Clan' %}<a href="{{ url_for('main.category', category="Clan") }}" style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
-						  {% endif %}
-						  {{ post.title }} </h4>
-						  <p class="card-text text-justify">{{ post.shortdesc }}</p>
+							<div class="article-content">{{ post.content | safe }}</div>
+							<h3> - {{ post.author.coachname }}</h3>
+							<p><a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">Read more
+									from this writer.</a></p>
+						</div>
+					</article>
+					{% if comments %}
+					<article class="media content-section">
+						<div class="media-body">
+							<a id="commentsection"></a>
+							<h4>Comments</h4>
+							{% for comment in comments %}
+							<p class="card-text text-left">{{ comment.content }} - <a class="mr-2"
+									href="{{ url_for('users.user_posts', coachname=comment.user.coachname) }}">{{ comment.user.coachname }}</a>
+								{% for role in current_user.role %}
+								{% if comment.user.coachname == current_user.coachname %}
+								<div class="d-inline btn-group" role="group">
+									<button id="btnGroupDrop{{ comment.id }}" type="button"
+										class="btn btn-danger dropdown-toggle btn-sm m-1" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										Delete Comment
+									</button>
+									<div class="dropdown-menu" aria-labelledby="btnGroupDrop{{ comment.id }}">
+										<form action="{{ url_for('posts.delete_comment', comment_id=comment.id, post_id=post.id) }}"
+											method="POST">
+											<input class="dropdown-item" type="submit" value="Confirm">
+										</form>
+									</div>
+								</div>
+								{% endif %}{% endfor %}</p>
+
+
+							{% endfor %}
+							{% if current_user.is_authenticated %}
+
+							<form method="POST" action="">
+								{{ form.hidden_tag() }}
+								<fieldset class="form-group">
+									<legend class="border-bottom mb-4">{{ legend }}</legend>
+									<div class="form-group">
+										{{ form.content.label(class="form-control-label") }}
+										{% if form.content.errors %}
+										{{ form.content(class="form-control form-control-lg is-invalid") }}
+										<div class="invalid-feedback">
+											{% for error in form.content.errors %}
+											<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+										{% else %}
+										{{ form.content(class="form-control form-control-lg") }}
+										{% endif %}
+									</div>
+								</fieldset>
+								<div class="form-group">
+									{{ form.submit(class="btn btn-outline-info") }}
+								</div>
+							</form>
+							{% else %}
+							<p></p>
+							<p><a class="btn btn-success btn-sm m-1" href="{{ url_for('users.login') }}">Log in to add a comment</a>
+							</p>
+							{% endif %}
+
+						</div>
+					</article>
+					{% endif %}
+				</div>
+				{% if post.sidebar != False %}
+				<div class="col-md-4 py-2">
+
+					{% if comments %}
+					<div class="card mb-4 shadow-sm d-none d-md-block" style="border-radius: 10px">
+						<div class="card-body bg-light" style="border-radius: 10px">
+							<a id="commentsection"></a>
+							<h4>Comments</h4>
+							{% for comment in comments %}
+							<p class="card-text">{{ comment.content }} - <a class="mr-2"
+									href="{{ url_for('users.user_posts', coachname=comment.user.coachname) }}">{{ comment.user.coachname }}</a>
+								{% for role in current_user.role %}
+								{% if comment.user.coachname == current_user.coachname %}
+								<div class="d-inline btn-group" role="group">
+									<button id="btnGroupDrop{{ comment.id }}" type="button"
+										class="btn btn-danger dropdown-toggle btn-sm m-1" data-toggle="dropdown" aria-haspopup="true"
+										aria-expanded="false">
+										Delete Comment
+									</button>
+									<div class="dropdown-menu" aria-labelledby="btnGroupDrop{{ comment.id }}">
+										<form action="{{ url_for('posts.delete_comment', comment_id=comment.id, post_id=post.id) }}"
+											method="POST">
+											<input class="dropdown-item" type="submit" value="Confirm">
+										</form>
+									</div>
+								</div>
+
+								{% endif %}{% endfor %}</p>
+
+
+							{% endfor %}
+							{% if current_user.is_authenticated %}
+
+							<form method="POST" action="">
+								{{ form.hidden_tag() }}
+								<fieldset class="form-group">
+									<legend class="border-bottom mb-4">{{ legend }}</legend>
+									<div class="form-group">
+										{{ form.content.label(class="form-control-label") }}
+										{% if form.content.errors %}
+										{{ form.content(class="form-control form-control-lg is-invalid") }}
+										<div class="invalid-feedback">
+											{% for error in form.content.errors %}
+											<span>{{ error }}</span>
+											{% endfor %}
+										</div>
+										{% else %}
+										{{ form.content(class="form-control form-control-lg") }}
+										{% endif %}
+									</div>
+								</fieldset>
+								<div class="form-group">
+									{{ form.submit(class="btn btn-outline-info") }}
+								</div>
+							</form>
+							{% else %}
+							<p></p>
+							<p><a class="btn btn-success btn-sm m-1" href="{{ url_for('users.login') }}">Log in to add a comment</a>
+							</p>
+							{% endif %}
+
+						</div>
+					</div>
+					{% endif %}
+
+					<div class="card mb-4 shadow-sm" style="border-radius: 10px">
+						<div class="card-body bg-light" style="border-radius: 10px">
+							<h4>More REBBL Content</h4>
+
+							<p class="card-text text-justify">These links lead to other REBBL related content, information, and
+								websites.</p>
+							<p>
+								<a href="{{ url_for('main.home') }}">Latest News Posts</a><br />
+								<a href="https://www.reddit.com/r/ReBBl/" target="_blank">REBBL Reddit Homepage</a><br />
+								<a href="https://rebbl.net" target="_blank">REBBL Match Ups and Stats<br />
+									<a href="https://nufflytics.com/" target="_blank">Nufflytics - Data Analysis<br />
+										<a href="{{ url_for('posts.post', post_id=5) }}">How to Write for REBBL News</a><br />
+							</p>
+
+						</div>
+					</div>
+					{% for post in posts %}
+					<div class="card mb-4 shadow-sm" style="border-radius: 10px">
+						<div class="card-body bg-light"
+							style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
+							<h4>
+								{% if post.category == 'All' %}<button class="btn btn-dark btn-sm float-right"
+									style="border-radius: 10px" href="{{ url_for('main.category', category="All") }}">All</button>
+								{% elif post.category == 'GMAN' %}<a href="{{ url_for('main.category', category="GMAN") }}"
+									style="border-radius: 10px; background-color:#000e77"
+									class="btn btn-secondary btn-sm float-right">GMAN</a>
+								{% elif post.category == 'Big O' %}<a href="{{ url_for('main.category', category="Big O") }}"
+									style="border-radius: 10px; background-color:#917c06" class="btn btn-secondary btn-sm float-right">Big
+									O</a>
+								{% elif post.category == 'REL' %}<a href="{{ url_for('main.category', category="REL") }}"
+									style="border-radius: 10px; background-color:#7e0000"
+									class="btn btn-secondary btn-sm float-right">REL</a>
+								{% elif post.category == 'Clan' %}<a href="{{ url_for('main.category', category="Clan") }}"
+									style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
+								{% endif %}
+								{{ post.title }} </h4>
+							<p class="card-text text-justify">{{ post.shortdesc }}</p>
 						</div>
 						<div class="card-footer text-right">
-							<a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button" class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
-							By&nbsp;<a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+							<a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
+									class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
+							By&nbsp;<a class="mr-2"
+								href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
 						</div>
-					  </div>
-				  </div>
-				  {% endif %}
+					</div>
+					{% endfor %}
+				</div>
+				{% else %}
+				{% for row in posts|batch(3, '&nbsp;') %}
+				<div class="row">
+					{% for post in row %}
+					{% if post != '&nbsp;' %}
+					<div class="col-md-4 py-2">
+						<div class="card mb-4 shadow-sm  h-100" style="border-radius: 10px">
+							<div class="card-body bg-light"
+								style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
+								<h4>
+									{% if post.category == 'All' %}<a class="btn btn-dark btn-sm float-right" style="border-radius: 10px"
+										href="{{ url_for('main.category', category="All") }}">All</a>
+									{% elif post.category == 'GMAN' %}<a href="{{ url_for('main.category', category="GMAN") }}"
+										style="border-radius: 10px; background-color:#000e77"
+										class="btn btn-secondary btn-sm float-right">GMAN</a>
+									{% elif post.category == 'Big O' %}<a href="{{ url_for('main.category', category="Big O") }}"
+										style="border-radius: 10px; background-color:#917c06"
+										class="btn btn-secondary btn-sm float-right">Big
+										O</a>
+									{% elif post.category == 'REL' %}<a href="{{ url_for('main.category', category="REL") }}"
+										style="border-radius: 10px; background-color:#7e0000"
+										class="btn btn-secondary btn-sm float-right">REL</a>
+									{% elif post.category == 'Clan' %}<a href="{{ url_for('main.category', category="Clan") }}"
+										style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
+									{% endif %}
+									{{ post.title }} </h4>
+								<p class="card-text text-justify">{{ post.shortdesc }}</p>
+							</div>
+							<div class="card-footer text-right">
+								<a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
+										class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
+								By&nbsp;<a class="mr-2"
+									href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{% endfor %}
+				</div>
 				{% endfor %}
-			  </div>
-			{% endfor %}
-		{% endif %}
-	  </div>
-	</main>
-  <!-- Delete Post -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
-            <input class="btn btn-danger" type="submit" value="Delete">
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Publish Post -->
-  <div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="publishModalLabel">Publish Post?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('posts.publish_post', post_id=post.id) }}" method="POST">
-            <input class="btn btn-success" type="submit" value="Publish">
-          </form>
-        </div>
-      </div>
-    </div>	
-  </div>
-  
-  <!-- Unpublish Post -->
-  <div class="modal fade" id="unpublishModal" tabindex="-1" role="dialog" aria-labelledby="unpublishModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="unpublishModal">Unpublish Post?</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form action="{{ url_for('posts.unpublish_post', post_id=post.id) }}" method="POST">
-            <input class="btn btn-success" type="submit" value="Unpublish">
-          </form>
-        </div>
-      </div>
-    </div>	
-  </div>
+				{% endif %}
+		</div>
+</main>
+<!-- Delete Post -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<form action="{{ url_for('posts.delete_post', post_id=post.id) }}" method="POST">
+					<input class="btn btn-danger" type="submit" value="Delete">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Publish Post -->
+<div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="publishModalLabel">Publish Post?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<form action="{{ url_for('posts.publish_post', post_id=post.id) }}" method="POST">
+					<input class="btn btn-success" type="submit" value="Publish">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Unpublish Post -->
+<div class="modal fade" id="unpublishModal" tabindex="-1" role="dialog" aria-labelledby="unpublishModalLabel"
+	aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="unpublishModal">Unpublish Post?</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<form action="{{ url_for('posts.unpublish_post', post_id=post.id) }}" method="POST">
+					<input class="btn btn-success" type="submit" value="Unpublish">
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
 
 
-  
+
 {% endblock content %}
