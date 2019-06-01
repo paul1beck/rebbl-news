@@ -18,6 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(60), nullable=False)
     role = db.relationship('UserRole', backref='users', lazy=True)
     posts = db.relationship('Post', backref='author', lazy=True)
+    videos = db.relationship('Video', backref='author', lazy=True)
     comments = db.relationship('PostComment', backref='user', lazy=True)
 
     def get_reset_token(self, expires_sec=1800):
@@ -72,7 +73,7 @@ class PostComment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     def __repr__(self):
-        return f"Post('{self.content}', '{self.date_posted}')"
+        return f"Comment('{self.content}', '{self.date_posted}')"
 
 
 class Video(db.Model):
@@ -80,15 +81,19 @@ class Video(db.Model):
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     video = db.Column(db.Text, nullable=False)
+    videotype = db.Column(db.String(20), nullable=True)
     shortdesc = db.Column(db.String(250), nullable=True)
     published = db.Column(db.Boolean, default=False)
     category = db.Column(db.String(20), nullable=True)
+    recap = db.Column(db.Boolean, default=False)
+    division = db.Column(db.String(20), nullable=True)
+    week = db.Column(db.String(20), nullable=True)
     slug = db.Column(db.String(100), nullable=False)
     comments = db.relationship('VideoComment', backref='video', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
-        return f"Post('{self.title}', '{self.date_posted}')"
+        return f"Video('{self.title}', '{self.date_posted}')"
 
 
 class VideoComment(db.Model):
@@ -99,4 +104,4 @@ class VideoComment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
 
     def __repr__(self):
-        return f"Post('{self.content}', '{self.date_posted}')"
+        return f"Comment('{self.content}', '{self.date_posted}')"
