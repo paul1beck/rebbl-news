@@ -11,18 +11,20 @@ from flask_ckeditor import CKEditor
 db = SQLAlchemy()
 bcrypt = Bcrypt()
 login_manager = LoginManager()
-login_manager.login_view = 'users.login'
-login_manager.login_message_category = 'info'
+login_manager.login_view = "users.login"
+login_manager.login_message_category = "info"
 mail = Mail()
 admin = Admin()
 ckeditor = CKEditor()
+
 
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(Config)
     db.init_app(app)
     with app.app_context():
-        from flaskblog.models import User, UserRole, Post, PostComment, Video, VideoComment
+        from flaskblog.models import User, UserRole, Post, PostComment
+
         db.create_all()
     bcrypt.init_app(app)
     login_manager.init_app(app)
@@ -32,14 +34,17 @@ def create_app(config_class=Config):
     from flaskblog.posts.routes import posts
     from flaskblog.main.routes import main
     from flaskblog.errors.handlers import errors
+
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
     app.register_blueprint(errors)
-    admin = Admin(app, name='Dashboard', index_view=AdminView(User, db.session, url='/admin', endpoint='admin'))
+    admin = Admin(
+        app,
+        name="Dashboard",
+        index_view=AdminView(User, db.session, url="/admin", endpoint="admin"),
+    )
     admin.add_view(AdminView(UserRole, db.session))
     admin.add_view(AdminView(Post, db.session))
     admin.add_view(AdminView(PostComment, db.session))
-    admin.add_view(AdminView(Video, db.session))
-    admin.add_view(AdminView(VideoComment, db.session))
     return app
