@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from flaskblog import db
 from flaskblog.models import Post, PostComment
 from flaskblog.posts.forms import PostForm, CommentForm, VideoForm
-from flaskblog.posts.utils import save_picture
+from flaskblog.posts.utils import save_picture, parse_video_url, parse_video_img
 from datetime import datetime
 from slugify import slugify
 
@@ -36,7 +36,7 @@ def new_post():
         post.slug = slugify(form.title.data, max_length=35).lower() + "-" + str(post.id)
         db.session.commit()
         flash("Your comment has been added!", "success")
-        return redirect(url_for("posts.postslug", post_slug=post.slug))
+        return redirect(url_for('posts.postslug', post_slug=post.slug))
     return render_template(
         "create_post.html", title="New Post", form=form, legend="New Post"
     )
@@ -104,7 +104,7 @@ def postslug(post_slug):
         db.session.commit()
         flash("Your comment has been added!", "success")
         return redirect(
-            url_for("posts.postslug", _anchor="commentsection", post_slug=post.slug)
+            url_for('posts.postslug', _anchor="commentsection", post_slug=post.slug)
         )
 
     if post.post_type == "text":
@@ -213,15 +213,18 @@ def new_video():
     form = VideoForm()
     if form.validate_on_submit():
         # Insert logic to parse out video unique identifier to store as video
-        videourl = form.video.data
-        post = Video(
+        videoinput = form.video.data
+        post = Post(
             title=form.title.data,
             category=form.category.data,
             shortdesc=form.shortdesc.data,
-            video=videourl,
-            videotype=form.videotype.data,
+            content=form.content.data,
+            video=form.video.data,
+            # post.videotype = form.videotype.data,
+            videoimg=parse_video_img(videoinput),
+            videourl=parse_video_url(videoinput),
             recap=form.recap.data,
-            division=form.division.data,
+            division=", ".join(form.division.data),
             week=form.week.data,
             author=current_user,
             post_type="video",
@@ -235,7 +238,7 @@ def new_video():
         flash("Your video has been added!", "success")
         return redirect(url_for("posts.postslug", post_slug=post.slug))
     return render_template(
-        "create_video_post.html",
+        "create_video.html",
         title="New Video Post",
         form=form,
         legend="New Video Post",
@@ -244,9 +247,9 @@ def new_video():
 
 @posts.route("/video/<int:post_id>/update", methods=["GET", "POST"])
 @login_required
-def update_video(video_id):
-    video = Post.query.get_or_404(post_id)
-    if video.author != current_user:
+def update_video(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
         abort(403)
 
     form = VideoForm()
@@ -256,9 +259,11 @@ def update_video(video_id):
         post.category = form.category.data
         post.shortdesc = form.shortdesc.data
         post.video = form.video.data
-        post.videotype = form.videotype.data
+        # post.videotype = form.videotype.data
+        post.videoimg = ""
+        post.videourl = ""
         post.recap = form.recap.data
-        post.division = form.division.data
+        post.division = ", ".join(form.division.data)
         post.week = form.week.data
         db.session.commit()
         flash("Your video post has been updated!", "success")
@@ -269,9 +274,9 @@ def update_video(video_id):
         form.category.data = post.category
         form.shortdesc.data = post.shortdesc
         form.video.data = post.video
-        form.videotype.data = post.videotype
+        # form.videotype.data = post.videotype
         form.recap.data = post.recap
-        form.division.data = post.division
+        form.division.data = post.division.split(", ")
         form.week.data = post.week
     return render_template(
         "create_video.html",
@@ -279,44 +284,3 @@ def update_video(video_id):
         form=form,
         legend="Update Video Post",
     )
-
-
-# @posts.route("/video/<string:video_slug>", methods=["GET", "POST"])
-# def video(video_slug):
-#     video = Post.query.filter_by(slug=video_slug).first()
-#     video_id = video.id
-#     comments = VideoComment.query.filter(VideoComment.video_id == video_id).order_by(
-#         VideoComment.date_posted.asc()
-#     )
-#     category = video.category
-#     videos = (
-#         Video.query.filter(
-#             Video.id != video_id,
-#             Video.category == category,
-#             Video.division == video.division,
-#             Video.published == True,
-#         )
-#         .order_by(Video.date_posted.desc())
-#         .limit(5)
-#     )
-#     form = CommentForm()
-#     if form.validate_on_submit():
-#         comment = VideoComment(
-#             content=form.content.data, user=current_user, video_id=video.id
-#         )
-#         db.session.add(comment)
-#         db.session.commit()
-#         flash("Your comment has been added!", "success")
-#         return redirect(
-#             url_for("posts.video", _anchor="commentsection", video_slug=video.slug)
-#         )
-
-#     return render_template(
-#         "video.html",
-#         form=form,
-#         title=video.title,
-#         shortdesc=video.shortdesc,
-#         video=video,
-#         videos=videos,
-#         comments=comments,
-#     )

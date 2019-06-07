@@ -67,6 +67,7 @@
       {% if post != '&nbsp;' %}
       <div class="col-md-4 py-2">
         <div class="card mb-4 shadow-sm  h-100" style="border-radius: 10px">
+          {% if post.post_type == "text" %}
           <div class="card-body bg-light"
             style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
             <h4>
@@ -90,9 +91,21 @@
           <div class="card-footer text-right">
             <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
                 class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
-            By&nbsp;<a class="mr-2"
-              href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a>
+            By <a class="mr-2"
+              href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a><br />
+              {{ post.date_posted.strftime("%b %d, %Y") }}
           </div>
+          {% elif post.post_type == "video" %}
+          <div class="card-body bg-light"
+            style="background-size: cover; padding:0px">
+            <img style="width:100%" src="{{ post.videoimg }}" />
+          </div>
+          <div class="card-footer text-right">
+            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
+                class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Watch Recap</button></a>
+                <p>{{ post.title }}</p>
+              </div>
+          {% endif %}
         </div>
       </div>
       {% endif %}

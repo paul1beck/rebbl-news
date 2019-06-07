@@ -21,7 +21,7 @@
 								{% if post.author.coachname == current_user.coachname %}
 								<div>
 									<a class="btn btn-secondary btn-sm mt-1 mb-1"
-										href="{{ url_for('posts.update_post', post_id=post.id) }}">Update</a>
+										href="{{ url_for('posts.update_video', post_id=post.id) }}">Update</a>
 									<button type="button" class="btn btn-danger btn-sm m-1" data-toggle="modal"
 										data-target="#deleteModal">Delete</button>
 									{% if post.published == False %}
@@ -35,11 +35,20 @@
 								{% endif %}
 								{# {% endfor %} #}
 							</div>
-
+							<div class="embed-responsive embed-responsive-16by9">
+								<iframe 
+									class="embed-responsive-item"
+									src="{{  post.videourl  }}"
+									frameborder="0"
+									scrolling="no"
+									allowfullscreen="true">
+								</iframe>
+							</div>
 							<div class="article-content">{{ post.content | safe }}</div>
 							<h3> - {{ post.author.coachname }}</h3>
 							<p><a class="mr-2" href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">Read more
 									from this writer.</a></p>
+							<p><img src="{{  post.videoimg  }}" /></p>
 						</div>
 					</article>
 					{% if comments %}
@@ -324,3 +333,4 @@
 
 
 {% endblock content %}
+

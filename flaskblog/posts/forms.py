@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, BooleanField
+from wtforms import StringField, SubmitField, TextAreaField, SelectField, BooleanField, SelectMultipleField
 from wtforms.validators import DataRequired
 from flask_ckeditor import CKEditorField
 
@@ -36,17 +36,8 @@ class VideoForm(FlaskForm):
     shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
     content = CKEditorField("Content")
     video = TextAreaField("Video URL", validators=[DataRequired()])
-    videotype = SelectField(
-        "Video Type",
-        choices=[
-            ("youtube", "YouTube Video"),
-            ("twitchvod", "Twitch Vod"),
-            ("twitchclip", "Twitch Clip"),
-        ],
-        validators=[DataRequired()],
-    )
     recap = BooleanField("Weekly Recap")
-    division = SelectField(
+    division = SelectMultipleField(
         "Division",
         choices=[
             ("none", "None"),
@@ -74,21 +65,21 @@ class VideoForm(FlaskForm):
     week = SelectField(
         "Week",
         choices=[
-            (0, "Precap"),
-            (1, "1"),
-            (2, "2"),
-            (3, "3"),
-            (4, "4"),
-            (5, "5"),
-            (6, "6"),
-            (7, "7"),
-            (8, "8"),
-            (9, "9"),
-            (10, "10"),
-            (11, "11"),
-            (12, "12"),
-            (13, "13"),
-            (14, "Post Season"),
+            ("0", "Precap"),
+            ("1", "1"),
+            ("2", "2"),
+            ("3", "3"),
+            ("4", "4"),
+            ("5", "5"),
+            ("6", "6"),
+            ("7", "7"),
+            ("8", "8"),
+            ("9", "9"),
+            ("10", "10"),
+            ("11", "11"),
+            ("12", "12"),
+            ("13", "13"),
+            ("14", "Post Season"),
         ],
     )
     submit = SubmitField("Post")

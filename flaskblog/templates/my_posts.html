@@ -14,14 +14,14 @@
     {% for post in posts.items %}
 	  {% if post.author == current_user %}
         <article class="media content-section">
-          <div class="media-body">
-            <h2><a class="article-title" href="{{ url_for('posts.post', post_id=post.id) }}">{{ post.title }}</a>
+          <div class="media-body"> 
+            <h2><a class="article-title" href="{{ url_for('posts.postslug', post_slug=post.slug) }}">{{ post.title }}</a>
 			{% if post.published == True %}
 			<button type="button" class="btn btn-success btn-sm m-1">Post is currently Published</button>
 			{% else %}
 			<button type="button" class="btn btn-danger btn-sm m-1">Post is currently Not Published</button>
 			{% endif %}</h2>
-            <p class="article-content">{{ post.shortdesc | safe }} -&nbsp;<a href="{{ url_for('posts.post', post_id=post.id) }}" >Read&nbsp;the&nbsp;full&nbsp;article</a></p>
+            <p class="article-content">{{ post.shortdesc | safe }} -&nbsp;<a href="{{ url_for('posts.postslug', post_slug=post.slug) }}" >Read&nbsp;the&nbsp;full&nbsp;article</a></p>
           </div>
         </article>
 	  {% endif %}

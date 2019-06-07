@@ -10,16 +10,22 @@ cur.execute(addCover)
 addVideo = "ALTER TABLE post ADD COLUMN video VARCHAR(150)"
 cur.execute(addVideo)
 
-addVideoType = "ALTER TABLE post ADD COLUMN videotype VARCHAR(20)"
-cur.execute(addVideoType)
+# addVideoType = "ALTER TABLE post ADD COLUMN videotype VARCHAR(20)"
+# cur.execute(addVideoType)
 
-addRecap = "ALTER TABLE post ADD COLUMN recap BIT"
+addVideoimg = "ALTER TABLE post ADD COLUMN videoimg TEXT"
+cur.execute(addVideoimg)
+
+addVideourl = "ALTER TABLE post ADD COLUMN videourl TEXT"
+cur.execute(addVideourl)
+
+addRecap = "ALTER TABLE post ADD COLUMN recap BOOLEAN"
 cur.execute(addRecap)
 
-addDivision = "ALTER TABLE post ADD COLUMN division VARCHAR(20)"
+addDivision = "ALTER TABLE post ADD COLUMN division TEXT"
 cur.execute(addDivision)
 
-addWeek = "ALTER TABLE post ADD COLUMN week VARCHAR(20)"
+addWeek = "ALTER TABLE post ADD COLUMN week TEXT"
 cur.execute(addWeek)
 
 addPostType = "ALTER TABLE post ADD COLUMN post_type VARCHAR(20)"

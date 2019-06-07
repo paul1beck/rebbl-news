@@ -47,6 +47,65 @@
 							{{ form.shortdesc(class="form-control form-control-lg") }}
 						{% endif %}
 					</div>
+
+					<div class="form-group">
+						{{ form.video.label(class="form-control-label") }}
+						{% if form.video.errors %}
+							{{ form.video(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.video.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.video(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+
+
+
+					<div class="form-group">
+						{{ form.recap.label(class="form-control-label") }}
+						{% if form.recap.errors %}
+							{{ form.recap(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.recap.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.recap(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+
+					<div class="form-group">
+						{{ form.division.label(class="form-control-label") }}
+						{% if form.division.errors %}
+							{{ form.division(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.division.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.division(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+
+					<div class="form-group">
+						{{ form.week.label(class="form-control-label") }}
+						{% if form.week.errors %}
+							{{ form.week(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.week.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.week(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+
 					<div class="form-group">
 						{{ form.content.label(class="form-control-label") }}
 						{% if form.content.errors %}
