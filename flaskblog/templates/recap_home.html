@@ -1,11 +1,45 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- Page Header
-      <div class="jumbotron text-center jumbotron-fluid" style="background: url('{{ url_for('static', filename='jimbob.jpg') }}')" class="fluid">
+      <div class="jumbotron textleft jumbotron-fluid" style="background: url('{{ url_for('static', filename='jimbob.jpg') }}')" class="fluid">
           <h1 class="jumbotron-heading bg-dark text-white d-inline-flex">REBBL News Updates!</h1>
           <p class="lead text-muted text-danger">Read the latest articles by the REBBL Writing Crew.</p>
-      </div> -->
+          <form method="POST" action="">
+              {{ form.hidden_tag() }}
 
+          <div class="form-row">
+            <div class="form-group">
+                {{ form.category.label(class="form-control-label") }}
+                {% if form.category.errors %}
+                  {{ form.category(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.category.errors %}
+                      <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ form.category(class="form-control form-control-lg") }}
+                {% endif %}
+              </div>
+              <div class="form-group">
+                {{ form.division.label(class="form-control-label") }}
+                {% if form.division.errors %}
+                  {{ form.division(class="form-control form-control-lg is-invalid") }}
+                  <div class="invalid-feedback">
+                    {% for error in form.division.errors %}
+                      <span>{{ error }}</span>
+                    {% endfor %}
+                  </div>
+                {% else %}
+                  {{ form.division(class="form-control form-control-lg") }}
+                {% endif %}
+              </div>
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+
+      </div>
+<!-- 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
@@ -57,7 +91,7 @@
     <span class="carousel-control-next-icon" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
-</div>
+</div> -->
 <!-- Main Content -->
 <div class="album">
   <div class="container">

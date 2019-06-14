@@ -60,12 +60,11 @@ class Post(db.Model):
     video = db.Column(db.Text)
     videoimg = db.Column(db.Text)
     videourl = db.Column(db.Text)
-    recap = db.Column(db.Boolean, default=False)
     division = db.Column(db.Text)
     week = db.Column(db.Text)
     post_type = db.Column(db.String(20))
     comments = db.relationship("PostComment", backref="post", lazy=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"

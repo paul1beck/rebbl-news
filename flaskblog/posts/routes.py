@@ -2,7 +2,7 @@ from flask import render_template, url_for, flash, redirect, request, abort, Blu
 from flask_login import current_user, login_required
 from flaskblog import db
 from flaskblog.models import Post, PostComment
-from flaskblog.posts.forms import PostForm, CommentForm, VideoForm
+from flaskblog.posts.forms import PostForm, CommentForm, VideoForm, RecapForm
 from flaskblog.posts.utils import save_picture, parse_video_url, parse_video_img
 from datetime import datetime
 from slugify import slugify
@@ -117,7 +117,7 @@ def postslug(post_slug):
             posts=posts,
             comments=comments,
         )
-    else:
+    elif post.post_type == "video":
         return render_template(
             "video.html",
             form=form,
@@ -127,7 +127,15 @@ def postslug(post_slug):
             posts=posts,
             comments=comments,
         )
-
+    elif post.post_type == "recap":
+        return render_template(
+            "recap.html",
+            form=form,
+            title=post.title,
+            post=post,
+            posts=posts,
+            comments=comments,
+        )
 
 @posts.route("/post/<int:post_id>/update", methods=["GET", "POST"])
 @login_required
@@ -223,9 +231,6 @@ def new_video():
             # post.videotype = form.videotype.data,
             videoimg=parse_video_img(videoinput),
             videourl=parse_video_url(videoinput),
-            recap=form.recap.data,
-            division=", ".join(form.division.data),
-            week=form.week.data,
             author=current_user,
             post_type="video",
             published=False,
@@ -259,12 +264,9 @@ def update_video(post_id):
         post.category = form.category.data
         post.shortdesc = form.shortdesc.data
         post.video = form.video.data
-        # post.videotype = form.videotype.data
-        post.videoimg = ""
-        post.videourl = ""
-        post.recap = form.recap.data
-        post.division = ", ".join(form.division.data)
-        post.week = form.week.data
+        videoinput = form.video.data
+        post.videoimg = parse_video_img(videoinput)
+        post.videourl = parse_video_url(videoinput)
         db.session.commit()
         flash("Your video post has been updated!", "success")
         return redirect(url_for("posts.postslug", post_slug=post.slug))
@@ -274,13 +276,80 @@ def update_video(post_id):
         form.category.data = post.category
         form.shortdesc.data = post.shortdesc
         form.video.data = post.video
-        # form.videotype.data = post.videotype
-        form.recap.data = post.recap
-        form.division.data = post.division.split(", ")
-        form.week.data = post.week
     return render_template(
         "create_video.html",
         title="Update Video Post",
         form=form,
         legend="Update Video Post",
+    )
+
+@posts.route("/recap/new", methods=["GET", "POST"])
+@login_required
+def new_recap():
+    form = RecapForm()
+    if form.validate_on_submit():
+        videoinput = form.video.data
+        title_str = f'{form.category.data} - Division {form.division.data} - Week {form.week.data}'
+        post = Post(
+            title = title_str,
+            category=form.category.data,
+            content = form.content.data,
+            shortdesc = form.shortdesc.data,
+            video=form.video.data,
+            videoimg=parse_video_img(videoinput),
+            videourl=parse_video_url(videoinput),
+            division=", ".join(form.division.data),
+            week=form.week.data,
+            author=current_user,
+            post_type="recap",
+            published=False,
+            sidebar=True,
+        )
+        db.session.add(post)
+        db.session.commit()
+        post.slug = slugify(str(title_str), max_length=35).lower() + "-" + str(post.id)
+        db.session.commit()
+        flash("Your Recap Video has been added!", "success")
+        return redirect(url_for("posts.postslug", post_slug=post.slug))
+    return render_template(
+        "create_recap.html",
+        title="New Video Recap",
+        form=form,
+        legend="New Video Recap",
+    )
+
+
+@posts.route("/recap/<int:post_id>/update", methods=["GET", "POST"])
+@login_required
+def update_recap(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+
+    form = RecapForm()
+    if form.validate_on_submit():
+        post.title = f'{form.category.data} - Division {form.division.data} - Week {form.week.data}'
+        post.content = form.content.data
+        post.shortdesc = form.shortdesc.data
+        post.video = form.video.data
+        videoinput = form.video.data
+        post.videoimg = parse_video_img(videoinput)
+        post.videourl = parse_video_url(videoinput)
+        post.division = ", ".join(form.division.data)
+        post.week = form.week.data
+        db.session.commit()
+        flash("Your Recap Video has been updated!", "success")
+        return redirect(url_for("posts.postslug", post_slug=post.slug))
+    elif request.method == "GET":
+        form.content.data = post.content
+        form.shortdesc.data = post.shortdesc
+        form.category.data = post.category
+        form.video.data = post.video
+        form.division.data = post.division.split(", ")
+        form.week.data = post.week
+    return render_template(
+        "create_recap.html",
+        title="Update Video Recap",
+        form=form,
+        legend="Update Video Recap",
     )

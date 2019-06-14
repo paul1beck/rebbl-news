@@ -33,8 +33,8 @@ def parse_video_img(data):
     youtube1 = "https://youtu.be/"
     youtube2 = "https://www.youtube.com/watch?v="
     if twitch in data:
-        return "/static/twitch.png"
+        return "/static/twitch_card.png"
     elif youtube1 in data:
-        return str("https://img.youtube.com/vi/" + data.strip(youtube1) + "/hqdefault.jpg")
+        return str("https://img.youtube.com/vi/" + data.strip(youtube1) + "/mqdefault.jpg")
     elif youtube2 in data:
-        return str("https://img.youtube.com/vi/" + data.strip(youtube2) + "/hqdefault.jpg")
+        return str("https://img.youtube.com/vi/" + data.strip(youtube2) + "/mqdefault.jpg")

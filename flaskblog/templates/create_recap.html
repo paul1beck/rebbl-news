@@ -9,19 +9,6 @@
 				<fieldset class="form-group">
 					<legend class="border-bottom mb-4">{{ legend }}</legend>
 					<div class="form-group">
-						{{ form.title.label(class="form-control-label") }}
-						{% if form.title.errors %}
-							{{ form.title(class="form-control form-control-lg is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.title.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-						{% else %}
-							{{ form.title(class="form-control form-control-lg") }}
-						{% endif %}
-					</div>
-					<div class="form-group">
 						{{ form.shortdesc.label(class="form-control-label") }}
 						{% if form.shortdesc.errors %}
 							{{ form.shortdesc(class="form-control form-control-lg is-invalid") }}
@@ -47,6 +34,32 @@
 							{{ form.category(class="form-control form-control-lg") }}
 						{% endif %}
 					</div>
+					<div class="form-group">
+						{{ form.division.label(class="form-control-label") }}
+						{% if form.division.errors %}
+							{{ form.division(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.division.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.division(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+					<div class="form-group">
+						{{ form.week.label(class="form-control-label") }}
+						{% if form.week.errors %}
+							{{ form.week(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.week.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.week(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>					
 					<div class="form-group">
 						{{ form.video.label(class="form-control-label") }}
 						{% if form.video.errors %}

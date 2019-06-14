@@ -65,36 +65,50 @@
     <div class="row">
       {% for post in row %}
       {% if post != '&nbsp;' %}
-      <div class="col-md-4">
-        <div class="mb-4" style="background-size: cover; height:0px; box-sizing: border-box; overflow:hidden; padding-top: 60%; position:relative; background-color: transparent; background-image:url('/static/{{ post.category }}.png')">
-          <div class="card-body"
-            style="position:absolute; top: 0; left: 0; right: 0; bottom: 0; margin-right:13%; margin-left:2%; overflow:hidden">
-            <h4 style="font-family: Boogaloo;">{{ post.title }}</h4>
-
-            {% if post.post_type == "text" %}
-            <p class="card-text text-left"><strong>{{ post.date_posted.strftime("%b %d, %Y") }}</strong> - {{ post.shortdesc }}</p>
+      <div class="col-md-4 py-2">
+        <div class="card mb-4 shadow-sm  h-100" style="border-radius: 10px">
+          {% if post.post_type == "text" %}
+          <div class="card-body bg-light"
+            style="background-size: cover;border-top-left-radius: 10px;border-top-right-radius: 10px">
+            <h4>
+              {% if post.category == 'All' %}<a class="btn btn-dark btn-sm float-right" style="border-radius: 10px"
+                href="{{ url_for('main.category', category="All") }}">All</a>
+              {% elif post.category == 'GMAN' %}<a href="{{ url_for('main.category', category="GMAN") }}"
+                style="border-radius: 10px; background-color:#000e77"
+                class="btn btn-secondary btn-sm float-right">GMAN</a>
+              {% elif post.category == 'Big O' %}<a href="{{ url_for('main.category', category="Big O") }}"
+                style="border-radius: 10px; background-color:#917c06" class="btn btn-secondary btn-sm float-right">Big
+                O</a>
+              {% elif post.category == 'REL' %}<a href="{{ url_for('main.category', category="REL") }}"
+                style="border-radius: 10px; background-color:#7e0000"
+                class="btn btn-secondary btn-sm float-right">REL</a>
+              {% elif post.category == 'Clan' %}<a href="{{ url_for('main.category', category="Clan") }}"
+                style="border-radius: 10px" class="btn btn-secondary btn-sm float-right">Clan</a>
+              {% endif %}
+              {{ post.title }} </h4>
+            <p class="card-text text-justify">{{ post.shortdesc }}</p>
+          </div>
+          <div class="card-footer text-right">
             <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
-              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin:5%;">Read More</button></a>
-            <p>By <a class="mr-2 text-primary"
-            href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a><br />
-            </p>
-
-            {% elif post.post_type == "video" %}
-            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}">
-            <img src="{{ post.videoimg }}" style="width:100%" />
-            </a>
+                class="btn btn-outline-primary btn-sm float-left" style="border-radius: 10px">Read More</button></a>
+            By <a class="mr-2"
+              href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a><br />
+              {{ post.date_posted.strftime("%b %d, %Y") }}
+          </div>
+          {% elif post.post_type == "video" %}
+          <div class="card-body bg-light"
+            style="background-size: cover; padding:0px; background-image:url('{{ post.videoimg }}'); border-radius: 10px; display:flex; align-items: center">
             <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
-              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin:5%;">Watch Now</button></a>
-
-            {% elif post.post_type == "recap" %}
-            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}">
-              <img src="{{ post.videoimg }}" style="width:90%; margin-left:10%;" />
-            </a>
+              class="btn btn-primary btn-sm" style="border-radius: 10px; vertical-align: middle;">Watch {{ post.title }}</button></a>
+          </div>
+          {% elif post.post_type == "recap" %}
+          <div class="card-body bg-light"
+            style="background-size: cover; padding:0px; background-image:url('/static/twitch_card.png'); border-radius: 10px; display:flex; align-items: center">
+            <h4>{{ post.title }}</h4>
             <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
-              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin:5%;">Watch Now</button></a>
-
-            {% endif %}
-            </div>
+              class="btn btn-primary btn-sm" style="border-radius: 10px; vertical-align: middle;">Watch {{ post.title }}</button></a>
+          </div>
+          {% endif %}
         </div>
       </div>
       {% endif %}

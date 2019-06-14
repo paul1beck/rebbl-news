@@ -18,7 +18,7 @@ class PostForm(FlaskForm):
     )
     shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
     content = CKEditorField("Content", validators=[DataRequired()])
-    submit = SubmitField("Post")
+    submit = SubmitField("Save")
 
 
 class VideoForm(FlaskForm):
@@ -36,7 +36,22 @@ class VideoForm(FlaskForm):
     shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
     content = CKEditorField("Content")
     video = TextAreaField("Video URL", validators=[DataRequired()])
-    recap = BooleanField("Weekly Recap")
+    submit = SubmitField("Save")
+
+class RecapForm(FlaskForm):
+    category = SelectField(
+        "League",
+        choices=[
+            ("All", "All"),
+            ("Big O", "Big O"),
+            ("GMAN", "GMAN"),
+            ("REL", "REL"),
+            ("Clan", "Clan"),
+        ],
+    )
+    shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
+    content = CKEditorField("Content")
+    video = TextAreaField("Video URL", validators=[DataRequired()])
     division = SelectMultipleField(
         "Division",
         choices=[
@@ -82,8 +97,7 @@ class VideoForm(FlaskForm):
             ("14", "Post Season"),
         ],
     )
-    submit = SubmitField("Post")
-
+    submit = SubmitField("Save")
 
 class CommentForm(FlaskForm):
     content = StringField("Add a Comment", validators=[DataRequired()])
