@@ -9,19 +9,6 @@
 				<fieldset class="form-group">
 					<legend class="border-bottom mb-4">{{ legend }}</legend>
 					<div class="form-group">
-						{{ form.shortdesc.label(class="form-control-label") }}
-						{% if form.shortdesc.errors %}
-							{{ form.shortdesc(class="form-control form-control-lg is-invalid") }}
-							<div class="invalid-feedback">
-								{% for error in form.shortdesc.errors %}
-									<span>{{ error }}</span>
-								{% endfor %}
-							</div>
-						{% else %}
-							{{ form.shortdesc(class="form-control form-control-lg") }}
-						{% endif %}
-					</div>
-					<div class="form-group">
 						{{ form.category.label(class="form-control-label") }}
 						{% if form.category.errors %}
 							{{ form.category(class="form-control form-control-lg is-invalid") }}
@@ -71,6 +58,19 @@
 							</div>
 						{% else %}
 							{{ form.video(class="form-control form-control-lg") }}
+						{% endif %}
+					</div>
+					<div class="form-group">
+						{{ form.shortdesc.label(class="form-control-label") }}
+						{% if form.shortdesc.errors %}
+							{{ form.shortdesc(class="form-control form-control-lg is-invalid") }}
+							<div class="invalid-feedback">
+								{% for error in form.shortdesc.errors %}
+									<span>{{ error }}</span>
+								{% endfor %}
+							</div>
+						{% else %}
+							{{ form.shortdesc(class="form-control form-control-lg") }}
 						{% endif %}
 					</div>
 					<div class="form-group">

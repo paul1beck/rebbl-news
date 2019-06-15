@@ -330,6 +330,7 @@ def update_recap(post_id):
     if form.validate_on_submit():
         post.title = f'{form.category.data} - Division {form.division.data} - Week {form.week.data}'
         post.content = form.content.data
+        post.category = form.category.data
         post.shortdesc = form.shortdesc.data
         post.video = form.video.data
         videoinput = form.video.data

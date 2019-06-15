@@ -37,7 +37,7 @@ class VideoForm(FlaskForm):
             ("Rookie", "Rookie"),
         ],
     )
-    shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
+    shortdesc = TextAreaField("Short Description")
     content = CKEditorField("Content")
     video = TextAreaField("Video URL", validators=[DataRequired()])
     submit = SubmitField("Save")
@@ -51,8 +51,8 @@ class RecapForm(FlaskForm):
             ("REL", "REL"),
         ],
     )
-    shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
-    content = CKEditorField("Content")
+    shortdesc = TextAreaField("OPTIONAL - Short Description (used in previews on Discord)")
+    content = CKEditorField("OPTIONAL - Content - Add any other information or links")
     video = TextAreaField("Video URL", validators=[DataRequired()])
     division = SelectMultipleField(
         "Division",
