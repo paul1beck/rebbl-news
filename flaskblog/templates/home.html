@@ -1,28 +1,21 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- Page Header
-      <div class="jumbotron text-center jumbotron-fluid" style="background: url('{{ url_for('static', filename='jimbob.jpg') }}')" class="fluid">
-          <h1 class="jumbotron-heading bg-dark text-white d-inline-flex">REBBL News Updates!</h1>
-          <p class="lead text-muted text-danger">Read the latest articles by the REBBL Writing Crew.</p>
-      </div> -->
 
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
     <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+    <!-- <li data-target="#carouselExampleIndicators" data-slide-to="2"></li> -->
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img src="/static/cover/halflingchef.png" class="d-block w-100 h-100" alt="...">
+      <img src="/static/cover/brilliantcoaching.png" class="d-block w-100 h-100" alt="...">
       <div class="carousel-caption">
-        <h1 style="font-size:2.5em" class="font-carousel d-inline">ReBBL Recap of Articles</h1>
-        <p style="font-size:2em" class="font-carousel d-none d-md-block">Get the final word on the Playoffs with an
-          interview with the champion. Get hyped for Season 11 and new stories to go with it.
+        <h1 style="font-size:2.5em" class="font-carousel d-inline">Watch Your ReBBL Recap</h1>
+        <p style="font-size:2em" class="font-carousel d-none d-md-block">One place with all your recaps.
         </p>
-        <a href="/post/rebbl-recap-april-10th-playoffs-and-336" class="d-inline"><button type="button"
-            class="btn btn-danger btn-sm" style="border-radius: 10px; font:white;">Read
-            More</button></a>
+        <a href="{{ url_for('main.all_recap') }}" class="d-inline"><button type="button"
+            class="btn btn-danger btn-sm" style="border-radius: 10px; font:white;">Check it out!</button></a>
       </div>
     </div>
     <div class="carousel-item">
@@ -37,7 +30,7 @@
             More</button></a>
       </div>
     </div>
-    <div class="carousel-item">
+    <!-- <div class="carousel-item">
       <img src="static/cover/fans.png" class="d-block w-100 h-100" alt="...">
       <div class="carousel-caption">
         <h1 style="font-size:2.5em" class="font-carousel d-inline">ReBBL News is looking for writers!</h1>
@@ -47,7 +40,7 @@
             class="btn btn-danger btn-sm" style="border-radius: 10px; font:white;">Learn
             More</button></a>
       </div>
-    </div>
+    </div> -->
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -69,32 +62,29 @@
         <div class="mb-4" style="background-size: cover; height:0px; box-sizing: border-box; overflow:hidden; padding-top: 60%; position:relative; background-color: transparent; background-image:url('/static/{{ post.category }}.png')">
           <div class="card-body"
             style="position:absolute; top: 0; left: 0; right: 0; bottom: 0; margin-right:13%; margin-left:2%; overflow:hidden">
-            <h4 style="font-family: Boogaloo;">{{ post.title }}</h4>
+            <h3 style="font-family: Boogaloo;">{{ post.title }}</h3>
 
             {% if post.post_type == "text" %}
-            <p class="card-text text-left"><strong>{{ post.date_posted.strftime("%b %d, %Y") }}</strong> - {{ post.shortdesc }}</p>
-            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
-              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin:5%;">Read More</button></a>
-            <p>By <a class="mr-2 text-primary"
-            href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a><br />
+            <p class="card-text text-left"><strong>{{ post.date_posted.strftime("%b %d, %Y") }}</strong> - By <a class="mr-2 text-primary"
+              href="{{ url_for('users.user_posts', coachname=post.author.coachname) }}">{{ post.author.coachname }}</a></strong><br />
+              {{ post.shortdesc }}
             </p>
 
             {% elif post.post_type == "video" %}
             <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}">
-            <img src="{{ post.videoimg }}" style="width:100%" />
+            <img src="{{ post.videoimg }}" style="width:90%; margin-left:10%;" />
             </a>
-            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
-              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin:5%;">Watch Now</button></a>
 
             {% elif post.post_type == "recap" %}
             <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}">
               <img src="{{ post.videoimg }}" style="width:90%; margin-left:10%;" />
             </a>
-            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
-              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin:5%;">Watch Now</button></a>
-
             {% endif %}
-            </div>
+
+            <a href="{{ url_for('posts.postslug', post_slug=post.slug) }}"><button type="button"
+              class="btn btn-danger btn-sm" style="border-radius: 10px; position: absolute; right: 0; bottom: 0; margin-right:5%;margin-bottom:8%;">See More</button></a>
+
+          </div>
         </div>
       </div>
       {% endif %}

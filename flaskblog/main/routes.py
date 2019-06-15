@@ -6,10 +6,13 @@ main = Blueprint('main', __name__)
 
 
 @main.route("/")
-@main.route("/home", methods=['GET'])
+@main.route("/home", methods=["GET", "POST"])
 def home():
-    posts = Post.query.filter_by(published=True).order_by(Post.date_posted.desc())
-    return render_template('home.html', posts=posts)
+    form = RecapSelect()
+    if form.validate_on_submit():
+        return redirect(url_for('main.recap', category=form.category.data, division=form.division.data))
+    posts = Post.query.filter(Post.published==True, Post.post_type!='recap').order_by(Post.date_posted.desc())
+    return render_template('home.html', posts=posts, form=form)
 
 @main.route("/unpublished")
 def unpublished():

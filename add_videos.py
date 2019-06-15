@@ -13,7 +13,7 @@ df = pd.read_excel('flaskblog/Recap_Links.xlsx')
 for index, row in df.iterrows():
     videoinput = row['Link']
     title_str = f'{row["Region"]} - Division {row["Division"]} - Week {row["Week"]}'
-    user = User.query.filter_by(id=1).first()
+    user = User.query.filter_by(id=140).first()
     post = Post(
         title = title_str,
         category= row['Region'],

@@ -14,6 +14,8 @@ class PostForm(FlaskForm):
             ("GMAN", "GMAN"),
             ("REL", "REL"),
             ("Clan", "Clan"),
+            ("Lineman", "Lineman"),
+            ("Rookie", "Rookie"),
         ],
     )
     shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
@@ -31,6 +33,8 @@ class VideoForm(FlaskForm):
             ("GMAN", "GMAN"),
             ("REL", "REL"),
             ("Clan", "Clan"),
+            ("Lineman", "Lineman"),
+            ("Rookie", "Rookie"),
         ],
     )
     shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
@@ -42,11 +46,9 @@ class RecapForm(FlaskForm):
     category = SelectField(
         "League",
         choices=[
-            ("All", "All"),
             ("Big O", "Big O"),
             ("GMAN", "GMAN"),
             ("REL", "REL"),
-            ("Clan", "Clan"),
         ],
     )
     shortdesc = TextAreaField("Short Description", validators=[DataRequired()])
@@ -55,7 +57,6 @@ class RecapForm(FlaskForm):
     division = SelectMultipleField(
         "Division",
         choices=[
-            ("none", "None"),
             ("1", "1"),
             ("2a", "2A"),
             ("2b", "2B"),

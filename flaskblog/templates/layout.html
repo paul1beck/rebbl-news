@@ -52,7 +52,8 @@
 	<header class="site-header">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 			<div class="container">
-				<a class="navbar-brand" href="/">ReBBL News</a>
+				<a href="/" class="navbar-left"><img src="/static/rebblicon.gif" height="27px"></a>
+				<!-- <a class="navbar-brand" href="/">ReBBL News</a> -->
 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
@@ -74,7 +75,13 @@
 								<a class="nav-item nav-link" href="{{ url_for('main.category', category="GMAN") }}">GMAN</a>
 								<a class="nav-item nav-link" href="{{ url_for('main.category', category="REL") }}">REL</a>
 								<a class="nav-item nav-link" href="{{ url_for('main.category', category="Clan") }}">Clan</a>
+								<a class="nav-item nav-link" href="{{ url_for('main.category', category="Lineman") }}">Lineman</a>
+								<a class="nav-item nav-link" href="{{ url_for('main.category', category="Rookie") }}">Rookie</a>
 							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-item nav-link"
+								href="{{ url_for('main.all_recap') }}">Recaps</a>
 						</li>
 					</ul>
 					<ul class="navbar-nav">
@@ -102,7 +109,7 @@
 			</div>
 		</nav>
 	</header>
-	<main role="main" class="container py-4">
+	<main role="main" class="container">
 		<div class="row">
 			<div class="col-md-12">
 				{% with messages = get_flashed_messages(with_categories=true) %}
