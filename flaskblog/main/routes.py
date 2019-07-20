@@ -42,3 +42,9 @@ def recap(category, division):
         form.division.data = division
     posts = Post.query.filter(Post.published==True, Post.post_type=='recap', Post.category==category).filter(Post.division.contains(division)).order_by(Post.week.desc())
     return render_template('recap_home.html', posts=posts, form=form)
+
+@main.route("/ticker/")
+def ticker():
+    posts = (
+    Post.query.filter(Post.published == True, Post.post_type!='recap').order_by(Post.date_posted.desc()).limit(5))
+    return render_template('ticker.html', posts=posts)
