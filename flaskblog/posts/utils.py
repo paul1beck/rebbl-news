@@ -22,11 +22,12 @@ def parse_video_url(data):
     youtube1 = "https://youtu.be/"
     youtube2 = "https://www.youtube.com/watch?v="
     if twitch in data:
-        return str("https://player.twitch.tv/?video=" + data.strip(twitch))
+        return str("https://player.twitch.tv/?video=" + data.replace(twitch, ""))
     elif youtube1 in data:
-        return str("https://www.youtube.com/embed/" + data.strip(youtube1))
+        return str("https://www.youtube.com/embed/" + data.replace(youtube1, ""))
     elif youtube2 in data:
-        return str("https://www.youtube.com/embed/" + data.strip(youtube2))
+        return str("https://www.youtube.com/embed/" + data.replace(youtube2, ""))
+
 
 def parse_video_img(data):
     twitch = "https://www.twitch.tv/videos/"
@@ -35,6 +36,14 @@ def parse_video_img(data):
     if twitch in data:
         return "/static/twitch_card.png"
     elif youtube1 in data:
-        return str("https://img.youtube.com/vi/" + data.strip(youtube1) + "/mqdefault.jpg")
+        return str(
+            "https://img.youtube.com/vi/"
+            + data.replace(youtube1, "")
+            + "/mqdefault.jpg"
+        )
     elif youtube2 in data:
-        return str("https://img.youtube.com/vi/" + data.strip(youtube2) + "/mqdefault.jpg")
+        return str(
+            "https://img.youtube.com/vi/"
+            + data.replace(youtube2, "")
+            + "/mqdefault.jpg"
+        )
