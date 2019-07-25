@@ -48,8 +48,8 @@
   animation-timing-function: linear;
   -webkit-animation-name: ticker;
   animation-name: ticker;
-  -webkit-animation-duration: 30s;
-  animation-duration: 30s;
+  -webkit-animation-duration: 60s;
+  animation-duration: 60s;
 }
 .ticker-wrap .ticker__item {
   display: inline-block;
@@ -58,13 +58,13 @@
   color: white;
 }
 </style>
-<body style="width:100%; background:transparent">
+<body style="width:100%; background:transparent; margin: 0px;">
 <div class="ticker-wrap">
 
     <div class="ticker">
         <div class="ticker__item">ReBBL News Updates</div>
         {% for post in posts %}
-        <div class="ticker__item">{{ post.title }} - {{ post.shortdesc }}</div>
+      <div class="ticker__item"><strong>{{ post.title }}</strong> - {{ post.shortdesc }}</div>
         {% endfor %}
         <div class="ticker__item">Find these articles at https://news.rebbl.net</div>
     </div>
