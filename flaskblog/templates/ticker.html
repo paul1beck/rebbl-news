@@ -65,11 +65,11 @@
 <body style="width:100%; background:transparent; margin: 0px;">
   <div class="ticker-wrap">
       <div class="ticker">
-          <div class="ticker__item"><style style="font-family:Boogaloo">ReBBL News Updates</style></div>
+          <div class="ticker__item"><span style="font-family:Boogaloo">ReBBL News Updates</span></div>
           {% for post in posts %}
-        <div class="ticker__item"><style style="font-family:Boogaloo">{{ post.title }}</style> - {{ post.shortdesc }}</div>
+        <div class="ticker__item"><span style="font-family:Boogaloo">{{ post.title }}</span> - {{ post.shortdesc }}</div>
           {% endfor %}
-          <div class="ticker__item"><style style="font-family:Boogaloo">Find these articles at https://news.rebbl.net</style></div>
+          <div class="ticker__item"><span style="font-family:Boogaloo">Find these articles at https://news.rebbl.net</span></div>
       </div>
   </div>
 </body>
