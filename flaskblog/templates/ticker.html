@@ -1,72 +1,75 @@
-<style>
-* {
-  box-sizing: border-box;
-}
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Boogaloo"
+		rel="stylesheet">
+  <style>
+  * {
+    box-sizing: border-box;
+  }
 
-@-webkit-keyframes ticker {
-  0% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    visibility: visible;
+  @-webkit-keyframes ticker {
+    0% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      visibility: visible;
+    }
+    100% {
+      -webkit-transform: translate3d(-100%, 0, 0);
+      transform: translate3d(-100%, 0, 0);
+    }
   }
-  100% {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+  @keyframes ticker {
+    0% {
+      -webkit-transform: translate3d(0, 0, 0);
+      transform: translate3d(0, 0, 0);
+      visibility: visible;
+    }
+    100% {
+      -webkit-transform: translate3d(-100%, 0, 0);
+      transform: translate3d(-100%, 0, 0);
+    }
   }
-}
-@keyframes ticker {
-  0% {
-    -webkit-transform: translate3d(0, 0, 0);
-    transform: translate3d(0, 0, 0);
-    visibility: visible;
+  .ticker-wrap {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    overflow: hidden;
+    height: 4rem;
+    background-color: rgba(0, 0, 0, 0.9);
+    padding-left: 100%;
+    box-sizing: content-box;
   }
-  100% {
-    -webkit-transform: translate3d(-100%, 0, 0);
-    transform: translate3d(-100%, 0, 0);
+  .ticker-wrap .ticker {
+    display: inline-block;
+    height: 3rem;
+    line-height: 3rem;
+    white-space: nowrap;
+    padding-right: 100%;
+    box-sizing: content-box;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-name: ticker;
+    animation-name: ticker;
+    -webkit-animation-duration: 60s;
+    animation-duration: 60s;
   }
-}
-.ticker-wrap {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  overflow: hidden;
-  height: 4rem;
-  background-color: rgba(0, 0, 0, 0.9);
-  padding-left: 100%;
-  box-sizing: content-box;
-}
-.ticker-wrap .ticker {
-  display: inline-block;
-  height: 4rem;
-  line-height: 4rem;
-  white-space: nowrap;
-  padding-right: 100%;
-  box-sizing: content-box;
-  -webkit-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  animation-timing-function: linear;
-  -webkit-animation-name: ticker;
-  animation-name: ticker;
-  -webkit-animation-duration: 60s;
-  animation-duration: 60s;
-}
-.ticker-wrap .ticker__item {
-  display: inline-block;
-  padding: 0 2rem;
-  font-size: 2rem;
-  color: white;
-}
-</style>
+  .ticker-wrap .ticker__item {
+    display: inline-block;
+    padding: 0 1.2rem;
+    font-size: 1.2rem;
+    color: white;
+  }
+  </style>
+</head>
 <body style="width:100%; background:transparent; margin: 0px;">
-<div class="ticker-wrap">
-
-    <div class="ticker">
-        <div class="ticker__item">ReBBL News Updates</div>
-        {% for post in posts %}
-      <div class="ticker__item"><strong>{{ post.title }}</strong> - {{ post.shortdesc }}</div>
-        {% endfor %}
-        <div class="ticker__item">Find these articles at https://news.rebbl.net</div>
-    </div>
-</div>
+  <div class="ticker-wrap">
+      <div class="ticker">
+          <div class="ticker__item"><style style="font-family:Boogaloo">ReBBL News Updates</style></div>
+          {% for post in posts %}
+        <div class="ticker__item"><style style="font-family:Boogaloo">{{ post.title }}</style> - {{ post.shortdesc }}</div>
+          {% endfor %}
+          <div class="ticker__item"><style style="font-family:Boogaloo">Find these articles at https://news.rebbl.net</style></div>
+      </div>
+  </div>
 </body>
