@@ -36,7 +36,7 @@ def new_post():
         post.slug = slugify(form.title.data, max_length=35).lower() + "-" + str(post.id)
         db.session.commit()
         flash("Your comment has been added!", "success")
-        return redirect(url_for('posts.postslug', post_slug=post.slug))
+        return redirect(url_for("posts.postslug", post_slug=post.slug))
     return render_template(
         "create_post.html", title="New Post", form=form, legend="New Post"
     )
@@ -104,7 +104,7 @@ def postslug(post_slug):
         db.session.commit()
         flash("Your comment has been added!", "success")
         return redirect(
-            url_for('posts.postslug', _anchor="commentsection", post_slug=post.slug)
+            url_for("posts.postslug", _anchor="commentsection", post_slug=post.slug)
         )
 
     if post.post_type == "text":
@@ -136,6 +136,7 @@ def postslug(post_slug):
             posts=posts,
             comments=comments,
         )
+
 
 @posts.route("/post/<int:post_id>/update", methods=["GET", "POST"])
 @login_required
@@ -243,10 +244,7 @@ def new_video():
         flash("Your video has been added!", "success")
         return redirect(url_for("posts.postslug", post_slug=post.slug))
     return render_template(
-        "create_video.html",
-        title="New Video Post",
-        form=form,
-        legend="New Video Post",
+        "create_video.html", title="New Video Post", form=form, legend="New Video Post"
     )
 
 
@@ -283,18 +281,19 @@ def update_video(post_id):
         legend="Update Video Post",
     )
 
+
 @posts.route("/recap/new", methods=["GET", "POST"])
 @login_required
 def new_recap():
     form = RecapForm()
     if form.validate_on_submit():
         videoinput = form.video.data
-        title_str = f'{form.category.data} - Division {form.division.data} - Week {form.week.data}'
+        title_str = f"{form.category.data} - Division {', '.join(form.division.data)} - Week {form.week.data}"
         post = Post(
-            title = title_str,
+            title=title_str,
             category=form.category.data,
-            content = form.content.data,
-            shortdesc = form.shortdesc.data,
+            content=form.content.data,
+            shortdesc=form.shortdesc.data,
             video=form.video.data,
             videoimg=parse_video_img(videoinput),
             videourl=parse_video_url(videoinput),
@@ -328,7 +327,7 @@ def update_recap(post_id):
 
     form = RecapForm()
     if form.validate_on_submit():
-        post.title = f'{form.category.data} - Division {form.division.data} - Week {form.week.data}'
+        post.title = f"{form.category.data} - Division {', '.join(form.division.data)} - Week {form.week.data}"
         post.content = form.content.data
         post.category = form.category.data
         post.shortdesc = form.shortdesc.data

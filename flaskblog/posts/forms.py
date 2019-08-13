@@ -1,5 +1,12 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, SelectField, BooleanField, SelectMultipleField
+from wtforms import (
+    StringField,
+    SubmitField,
+    TextAreaField,
+    SelectField,
+    BooleanField,
+    SelectMultipleField,
+)
 from wtforms.validators import DataRequired
 from flask_ckeditor import CKEditorField
 
@@ -42,16 +49,14 @@ class VideoForm(FlaskForm):
     video = TextAreaField("Video URL", validators=[DataRequired()])
     submit = SubmitField("Save")
 
+
 class RecapForm(FlaskForm):
     category = SelectField(
-        "League",
-        choices=[
-            ("Big O", "Big O"),
-            ("GMAN", "GMAN"),
-            ("REL", "REL"),
-        ],
+        "League", choices=[("Big O", "Big O"), ("GMAN", "GMAN"), ("REL", "REL")]
     )
-    shortdesc = TextAreaField("OPTIONAL - Short Description (used in previews on Discord)")
+    shortdesc = TextAreaField(
+        "OPTIONAL - Short Description (used in previews on Discord)"
+    )
     content = CKEditorField("OPTIONAL - Content - Add any other information or links")
     video = TextAreaField("Video URL", validators=[DataRequired()])
     division = SelectMultipleField(
@@ -68,29 +73,29 @@ class RecapForm(FlaskForm):
             ("4c", "4C"),
             ("4d", "4D"),
             ("4e", "4E"),
-            ("4F", "4F"),
+            ("4f", "4F"),
             ("5a", "5A"),
             ("5b", "5B"),
             ("5c", "5C"),
             ("5d", "5D"),
             ("5e", "5E"),
             ("5f", "5F"),
-            ("5G", "5G"),
+            ("5g", "5G"),
         ],
     )
     week = SelectField(
         "Week",
         choices=[
-            ("0", "Precap"),
-            ("1", "1"),
-            ("2", "2"),
-            ("3", "3"),
-            ("4", "4"),
-            ("5", "5"),
-            ("6", "6"),
-            ("7", "7"),
-            ("8", "8"),
-            ("9", "9"),
+            ("00", "Precap"),
+            ("01", "1"),
+            ("02", "2"),
+            ("03", "3"),
+            ("04", "4"),
+            ("05", "5"),
+            ("06", "6"),
+            ("07", "7"),
+            ("08", "8"),
+            ("09", "9"),
             ("10", "10"),
             ("11", "11"),
             ("12", "12"),
@@ -99,6 +104,7 @@ class RecapForm(FlaskForm):
         ],
     )
     submit = SubmitField("Save")
+
 
 class CommentForm(FlaskForm):
     content = StringField("Add a Comment", validators=[DataRequired()])
