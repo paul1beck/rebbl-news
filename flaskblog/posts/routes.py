@@ -288,7 +288,7 @@ def new_recap():
     form = RecapForm()
     if form.validate_on_submit():
         videoinput = form.video.data
-        title_str = f"{form.category.data} - Division {', '.join(form.division.data)} - Week {form.week.data}"
+        title_str = f"{form.category.data} Div {', '.join(form.division.data)} - Week {form.week.data}"
         post = Post(
             title=title_str,
             category=form.category.data,
@@ -327,7 +327,7 @@ def update_recap(post_id):
 
     form = RecapForm()
     if form.validate_on_submit():
-        post.title = f"{form.category.data} - Division {', '.join(form.division.data)} - Week {form.week.data}"
+        post.title = f"{form.category.data} Div {', '.join(form.division.data)} - Week {form.week.data}"
         post.content = form.content.data
         post.category = form.category.data
         post.shortdesc = form.shortdesc.data
