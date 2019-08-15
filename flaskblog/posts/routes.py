@@ -132,6 +132,7 @@ def postslug(post_slug):
             "recap.html",
             form=form,
             title=post.title,
+            shortdesc=post.shortdesc,
             post=post,
             posts=posts,
             comments=comments,
