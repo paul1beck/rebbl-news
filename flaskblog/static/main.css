@@ -160,3 +160,15 @@ a.article-title:hover {
 	padding-left:5px;
 	padding-right:5px;
 }
+
+.division { font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; border-collapse: collapse;   width: 100%; }
+.division td, .division th {   border: 1px solid #ddd;   padding: 8px; }
+.division tr:nth-child(2){background-color: #f2f2f2;}
+.division tr:nth-child(5){background-color: #f2f2f2;}
+.division tr:nth-child(8){background-color: #f2f2f2;}
+.division tr:nth-child(11){background-color: #f2f2f2;}
+.division tr:nth-child(14){background-color: #f2f2f2;}
+.division tr:nth-child(17){background-color: #f2f2f2;}
+.division tr:nth-child(20){background-color: #f2f2f2;}
+.division tr:hover {background-color: #ddd;}
+.division th {   padding-top: 12px;   padding-bottom: 12px;   text-align: left;   background-color: #4CAF50;   color: white; } 
