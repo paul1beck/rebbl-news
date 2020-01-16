@@ -9,6 +9,7 @@ class RecapSelect(FlaskForm):
             ("Big O", "Big O"),
             ("GMAN", "GMAN"),
             ("REL", "REL"),
+            ("Rookie", "Rookie")
         ],
     )
     division = SelectField(
@@ -25,14 +26,19 @@ class RecapSelect(FlaskForm):
             ("4c", "4C"),
             ("4d", "4D"),
             ("4e", "4E"),
-            ("4F", "4F"),
+            ("4f", "4F"),
             ("5a", "5A"),
             ("5b", "5B"),
             ("5c", "5C"),
             ("5d", "5D"),
             ("5e", "5E"),
             ("5f", "5F"),
-            ("5G", "5G"),
+            ("5g", "5G"),
+            ("5h", "5H"),
+            ("5i", "5I"),
+            ("5j", "5J"),
+            ("5k", "5K"),
+            ("Rookies", "Rookies"),
         ],
     )
     submit = SubmitField("Search")
