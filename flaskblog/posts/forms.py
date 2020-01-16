@@ -52,7 +52,7 @@ class VideoForm(FlaskForm):
 
 class RecapForm(FlaskForm):
     category = SelectField(
-        "League", choices=[("Big O", "Big O"), ("GMAN", "GMAN"), ("REL", "REL")]
+        "League", choices=[("Big O", "Big O"), ("GMAN", "GMAN"), ("REL", "REL"), ("Rookie", "Rookie")]
     )
     shortdesc = TextAreaField(
         "OPTIONAL - Short Description (used in previews on Discord)"
@@ -81,6 +81,11 @@ class RecapForm(FlaskForm):
             ("5e", "5E"),
             ("5f", "5F"),
             ("5g", "5G"),
+            ("5h", "5H"),
+            ("5i", "5I"),
+            ("5j", "5J"),
+            ("5k", "5K"),
+            ("Rookies", "Rookies"),
         ],
     )
     week = SelectField(
