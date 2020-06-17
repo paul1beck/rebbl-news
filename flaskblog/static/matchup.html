@@ -1,0 +1,56 @@
+<html>
+<head>
+<style>
+
+.box{
+    float:left;
+	width:50%;
+}
+.clear{
+    clear:both;
+}
+html {
+    overflow: scroll;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<div class="box"><iframe id="team1" src="https://rebbl.net/rebbl/team/3038416" frameborder="0" scrolling="yes" width="100%" height="100%" align="left"></iframe></div>
+
+<div class="box"><iframe id="team2" src="https://rebbl.net/rebbl/team/3038416" frameborder="0" scrolling="yes" width="100%" height="100%" align="right"></iframe>
+
+</body>
+<script>
+var qs = (function(a) {
+    if (a == "") return {};
+    var b = {};
+    for (var i = 0; i < a.length; ++i)
+    {
+        var p=a[i].split('=', 2);
+        if (p.length == 1)
+            b[p[0]] = "";
+        else
+            b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+    }
+    return b;
+})(window.location.search.substr(1).split('&'));
+
+document.getElementById("team1").src = "https://rebbl.net/rebbl/team/"+qs["t1"];
+document.getElementById("team2").src = "https://rebbl.net/rebbl/team/"+qs["t2"];
+
+
+</script>
+</html>
